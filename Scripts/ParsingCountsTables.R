@@ -6,12 +6,14 @@ library(stringr)
 makeAMR<-read.delim("CountsTables/AMR_counts.tsv", sep = "\t", header = T, row.names = 1)
 # sapply(str_split(colnames(makeAMR), "_",  n = 4), `[`, 1)
 # length(unique(sapply(str_split(colnames(makeAMR), "_",  n = 4), `[`, 1)))
-colnames(makeAMR)<-sapply(str_split(colnames(makeAMR), "_", n = 4 ), `[`, 1)
+colnames(makeAMR)<-str_replace(colnames(makeAMR), regex("pre", ignore_case = T), "PRE") #switch all pre to cap
+colnames(makeAMR)<-sapply(str_split(colnames(makeAMR), "_", n = 4 ), `[`, 1) #get rid off useless info
 
-sampleNames<-unique(sapply(str_split(sapply(str_split(colnames(makeAMR), ".D", n = 2 ), `[`, 1), regex(".PRE", ignore_case = T), n = 2 ), `[`, 1))
-for (i in 1:length(sampleNames)) {
-  print(colnames(makeAMR)[grepl(sampleNames[i], colnames(makeAMR))])
-}
+sampleNames<-unique(sapply(str_split(colnames(makeAMR), ".D", n = 2 ), `[`, 1))
+# sampleNames<-unique(sapply(str_split(sapply(str_split(colnames(makeAMR), ".D", n = 2 ), `[`, 1), regex(".PRE", ignore_case = T), n = 2 ), `[`, 1))
+# for (i in 1:length(sampleNames)) {
+#   print(colnames(makeAMR)[grepl(sampleNames[i], colnames(makeAMR))])
+# }
 
 allNames<-colnames(makeAMR)[grepl(sampleNames[1], colnames(makeAMR))]
 days<-sort(as.numeric(sapply(str_split(colnames(makeAMR)[grepl(sampleNames[1], colnames(makeAMR))], ".D", n = 2), `[`, 2)))
