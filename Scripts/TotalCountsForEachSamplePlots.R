@@ -41,12 +41,61 @@ dev.off()
 
 
 makeRGI<-read.delim("CountsTables/RGI_counts.tsv", sep = "\t", header = T, row.names = 1)
-# sapply(str_split(colnames(makeRGI), "_",  n = 4), `[`, 1)
-# length(unique(sapply(str_split(colnames(makeRGI), "_",  n = 4), `[`, 1)))
-colnames(makeRGI)<-sapply(str_split(colnames(makeRGI), "_", n = 4 ), `[`, 1)
+colnames(makeRGI)<-gsub("pre", "PRE", colnames(makeRGI), ignore.case = T) #switch all pre to cap
+colnames(makeRGI)<-sapply(str_split(colnames(makeRGI), "_", n = 4 ), `[`, 1) #get rid of useless info
+colnames(makeRGI)<-gsub("\\.", "", colnames(makeRGI))#get rid of random .s
 
-makeVSEARCH<-read.delim("CountsTables/vsearch_counts.tsv", sep = "\t", header = T, row.names = 1)
-# sapply(str_split(colnames(makeRGI), "_",  n = 4), `[`, 1)
-# length(unique(sapply(str_split(colnames(makeRGI), "_",  n = 4), `[`, 1)))
-colnames(makeVSEARCH)<-sapply(str_split(colnames(makeVSEARCH), "_", n = 4 ), `[`, 1)
+makeRGI<-makeRGI[, intersect(sampleNames, colnames(makeRGI))]
+ID<-unique(paste0("D", sapply(str_split(colnames(makeRGI)[!grepl("PRE", colnames(makeRGI))], "D", n = 3 ), `[`, 2)))
+
+pdf("Plots/RGITotalCountsForEachSample.pdf", width=10, height=15)
+par(mfrow=c(3,2))
+for (i in 1:length(ID)) {
+  allNames<-colnames(makeRGI)[grepl(ID[i], colnames(makeRGI))]
+  days<-sort(as.numeric(sapply(str_split(colnames(makeRGI)[grepl(ID[i], colnames(makeRGI))], "D", n = 3), `[`, 3)))
+  orderedNames<-paste(ID[i], days, sep = "D")
+  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
+    orderedNames<-append(paste0(ID[i], "PRE"), orderedNames)
+  
+  plot(colSums(makeRGI[, orderedNames]), col = "cornflowerblue", pch = 19, xaxt = "n", 
+       xlab = "Days", ylab = "Counts",
+       main = ID[i])
+  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
+    labelNames<-append("PRE", paste0("D", days))
+  else
+    labelNames<-paste0("D", days)
+  axis(1, at = 1:length(orderedNames), labels = labelNames,  cex = 0.3, adj = 1)
+  
+}
+dev.off()
+
+makeVsearch<-read.delim("CountsTables/vsearch_counts.tsv", sep = "\t", header = T, row.names = 1)
+colnames(makeVsearch)<-gsub("pre", "PRE", colnames(makeVsearch), ignore.case = T) #switch all pre to cap
+colnames(makeVsearch)<-sapply(str_split(colnames(makeVsearch), "_", n = 4 ), `[`, 1) #get rid of useless info
+colnames(makeVsearch)<-gsub("\\.", "", colnames(makeVsearch))#get rid of random .s
+
+makeVsearch<-makeVsearch[, intersect(sampleNames, colnames(makeVsearch))]
+ID<-unique(paste0("D", sapply(str_split(colnames(makeVsearch)[!grepl("PRE", colnames(makeVsearch))], "D", n = 3 ), `[`, 2)))
+
+pdf("Plots/VsearchTotalCountsForEachSample.pdf", width=10, height=15)
+par(mfrow=c(3,2))
+for (i in 1:length(ID)) {
+  allNames<-colnames(makeVsearch)[grepl(ID[i], colnames(makeVsearch))]
+  days<-sort(as.numeric(sapply(str_split(colnames(makeVsearch)[grepl(ID[i], colnames(makeVsearch))], "D", n = 3), `[`, 3)))
+  orderedNames<-paste(ID[i], days, sep = "D")
+  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
+    orderedNames<-append(paste0(ID[i], "PRE"), orderedNames)
+  
+  plot(colSums(makeVsearch[, orderedNames]), col = "olivedrab4", pch = 19, xaxt = "n", 
+       xlab = "Days", ylab = "Counts",
+       main = ID[i])
+  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
+    labelNames<-append("PRE", paste0("D", days))
+  else
+    labelNames<-paste0("D", days)
+  axis(1, at = 1:length(orderedNames), labels = labelNames,  cex = 0.3, adj = 1)
+  
+}
+dev.off()
+
 
