@@ -24,18 +24,14 @@ for (i in 1:length(ID)) {
   allNames<-colnames(makeAMR)[grepl(ID[i], colnames(makeAMR))]
   days<-sort(as.numeric(sapply(str_split(colnames(makeAMR)[grepl(ID[i], colnames(makeAMR))], "D", n = 3), `[`, 3)))
   orderedNames<-paste(ID[i], days, sep = "D")
-  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
+  if (sum(grepl("PRE", allNames, ignore.case = T))>0){
     orderedNames<-append(paste0(ID[i], "PRE"), orderedNames)
+    days<-append(0, days)
+  }
   
-  plot(colSums(makeAMR[, orderedNames]), col = "coral3", pch = 19, xaxt = "n", 
+  plot(days, colSums(makeAMR[, orderedNames]), col = "coral3", pch = 19, 
        xlab = "Days", ylab = "Counts",
        main = ID[i])
-  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
-    labelNames<-append("PRE", paste0("D", days))
-  else
-    labelNames<-paste0("D", days)
-  axis(1, at = 1:length(orderedNames), labels = labelNames,  cex = 0.3, adj = 1)
-  
 }
 dev.off()
 
@@ -54,18 +50,15 @@ for (i in 1:length(ID)) {
   allNames<-colnames(makeRGI)[grepl(ID[i], colnames(makeRGI))]
   days<-sort(as.numeric(sapply(str_split(colnames(makeRGI)[grepl(ID[i], colnames(makeRGI))], "D", n = 3), `[`, 3)))
   orderedNames<-paste(ID[i], days, sep = "D")
-  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
+  if (sum(grepl("PRE", allNames, ignore.case = T))>0){
     orderedNames<-append(paste0(ID[i], "PRE"), orderedNames)
+    days<-append(0, days)
+  }
   
-  plot(colSums(makeRGI[, orderedNames]), col = "cornflowerblue", pch = 19, xaxt = "n", 
+  plot(days, colSums(makeRGI[, orderedNames]), col = "cornflowerblue", pch = 19, 
        xlab = "Days", ylab = "Counts",
        main = ID[i])
-  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
-    labelNames<-append("PRE", paste0("D", days))
-  else
-    labelNames<-paste0("D", days)
-  axis(1, at = 1:length(orderedNames), labels = labelNames,  cex = 0.3, adj = 1)
-  
+
 }
 dev.off()
 
@@ -83,17 +76,14 @@ for (i in 1:length(ID)) {
   allNames<-colnames(makeVsearch)[grepl(ID[i], colnames(makeVsearch))]
   days<-sort(as.numeric(sapply(str_split(colnames(makeVsearch)[grepl(ID[i], colnames(makeVsearch))], "D", n = 3), `[`, 3)))
   orderedNames<-paste(ID[i], days, sep = "D")
-  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
+  if (sum(grepl("PRE", allNames, ignore.case = T))>0){
     orderedNames<-append(paste0(ID[i], "PRE"), orderedNames)
+    days<-append(0, days)
+  }
   
-  plot(colSums(makeVsearch[, orderedNames]), col = "olivedrab4", pch = 19, xaxt = "n", 
+  plot(days, colSums(makeVsearch[, orderedNames]), col = "olivedrab4", pch = 19, 
        xlab = "Days", ylab = "Counts",
        main = ID[i])
-  if (sum(grepl("PRE", allNames, ignore.case = T))>0)
-    labelNames<-append("PRE", paste0("D", days))
-  else
-    labelNames<-paste0("D", days)
-  axis(1, at = 1:length(orderedNames), labels = labelNames,  cex = 0.3, adj = 1)
   
 }
 dev.off()
