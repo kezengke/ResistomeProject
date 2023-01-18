@@ -1,37 +1,53 @@
 rm(list = ls())
-dukeSamples<-read.csv("dukeSamples.csv", header = T, sep = ",")
-dukeSamples$Sample<-gsub("-", "", dukeSamples$Sample)
-dukeSamples$Sample<-gsub(" ", "", dukeSamples$Sample)
+library(stringr)
+dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
+dukeSamples$sample<-gsub("pre", "PRE", dukeSamples$sample, ignore.case = T) #switch all pre to cap
+dukeSamples$Seq_sample<-gsub("pre", "PRE", dukeSamples$Seq_sample, ignore.case = T) #switch all pre to cap
 
 #AMR
 amrT<-read.delim("CountsTables/AMR_counts.tsv", sep = "\t", header = T, row.names = 1)
+amrT<-amrT[, grepl("^D", colnames(amrT))]
 colnames(amrT)<-gsub("pre", "PRE", colnames(amrT), ignore.case = T) #switch all pre to cap
-colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 4 ), `[`, 1) #get rid of useless info
-colnames(amrT)<-gsub("\\.", "", colnames(amrT))#get rid of random .s
+colnames(amrT)<-gsub(".amrfinder.txt", "", colnames(amrT)) #get rid of useless info
 
-length(intersect(dukeSamples$Sample, colnames(amrT)))
+SampleWithDots<-sapply(str_count(colnames(amrT), "\\."), `[`, 1) == 2
+colnames(amrT)[SampleWithDots]<-sub("\\.", "", colnames(amrT)[SampleWithDots]) #get rid of random "."s in sample names
 
-setdiff(dukeSamples$Sample, colnames(amrT))
-setdiff(colnames(amrT), dukeSamples$Sample)
+colnames(amrT)<-sub("\\.", "-", colnames(amrT)) #replace . with - to match with metadata
+
+length(intersect(dukeSamples$Seq_sample, colnames(amrT)))
+
+setdiff(dukeSamples$Seq_sample, colnames(amrT))
+setdiff(colnames(amrT), dukeSamples$Seq_sample)
 
 #RGI
 rgiT<-read.delim("CountsTables/RGI_counts.tsv", sep = "\t", header = T, row.names = 1)
+rgiT<-rgiT[, grepl("^D", colnames(rgiT))]
 colnames(rgiT)<-gsub("pre", "PRE", colnames(rgiT), ignore.case = T) #switch all pre to cap
-colnames(rgiT)<-sapply(str_split(colnames(rgiT), "_", n = 4 ), `[`, 1) #get rid of useless info
-colnames(rgiT)<-gsub("\\.", "", colnames(rgiT))#get rid of random .s
+colnames(rgiT)<-gsub(".rgi.txt", "", colnames(rgiT)) #get rid of useless info
 
-length(intersect(dukeSamples$Sample, colnames(rgiT)))
+SampleWithDots<-sapply(str_count(colnames(rgiT), "\\."), `[`, 1) == 2
+colnames(rgiT)[SampleWithDots]<-sub("\\.", "", colnames(rgiT)[SampleWithDots]) #get rid of random "."s in sample names
 
-setdiff(dukeSamples$Sample, colnames(rgiT))
-setdiff(colnames(rgiT), dukeSamples$Sample)
+colnames(rgiT)<-sub("\\.", "-", colnames(rgiT)) #replace . with - to match with metadata
+
+length(intersect(dukeSamples$Seq_sample, colnames(rgiT)))
+
+setdiff(dukeSamples$Seq_sample, colnames(rgiT))
+setdiff(colnames(rgiT), dukeSamples$Seq_sample)
 
 #vsearch
 vsearchT<-read.delim("CountsTables/vsearch_counts.tsv", sep = "\t", header = T, row.names = 1)
+vsearchT<-vsearchT[, grepl("^D", colnames(vsearchT))]
 colnames(vsearchT)<-gsub("pre", "PRE", colnames(vsearchT), ignore.case = T) #switch all pre to cap
-colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 4 ), `[`, 1) #get rid of useless info
-colnames(vsearchT)<-gsub("\\.", "", colnames(vsearchT))#get rid of random .s
+colnames(vsearchT)<-gsub(".txt", "", colnames(vsearchT)) #get rid of useless info
 
-length(intersect(dukeSamples$Sample, colnames(vsearchT)))
+SampleWithDots<-sapply(str_count(colnames(vsearchT), "\\."), `[`, 1) == 2
+colnames(vsearchT)[SampleWithDots]<-sub("\\.", "", colnames(vsearchT)[SampleWithDots]) #get rid of random "."s in sample names
 
-setdiff(dukeSamples$Sample, colnames(vsearchT))
-setdiff(colnames(vsearchT), dukeSamples$Sample)
+colnames(vsearchT)<-sub("\\.", "-", colnames(vsearchT)) #replace . with - to match with metadata
+
+length(intersect(dukeSamples$Seq_sample, colnames(vsearchT)))
+
+setdiff(dukeSamples$Seq_sample, colnames(vsearchT))
+setdiff(colnames(vsearchT), dukeSamples$Seq_sample)
