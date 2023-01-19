@@ -79,11 +79,11 @@ cols<-circleCol[factor(metaBracken$bins)]
 
 MDS<-capscale(t(brackenT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-cols<-circleCol
+pval<-adonis(t(brackenT)~metaBracken$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                      xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                     main = paste("Bracken-Species n =", ncol(brackenT)))
+                     main = paste("Bracken-Species n =", ncol(brackenT), "\nP-value:",pval))
 points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaBracken$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
 legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
@@ -94,11 +94,11 @@ cols<-circleCol[factor(metaAMR$bins)]
 
 MDS<-capscale(t(amrT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-cols<-circleCol
+pval<-adonis(t(amrT)~metaAMR$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                     main=paste("AMR n =", ncol(amrT)))
+                     main=paste("AMR n =", ncol(amrT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
 legend("topleft", sort(unique(metaAMR$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
@@ -109,11 +109,11 @@ cols<-circleCol[factor(metaRGI$bins)]
 
 MDS<-capscale(t(rgiT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-cols<-circleCol
+pval<-adonis(t(rgiT)~metaRGI$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                     main=paste("RGI n =", ncol(rgiT)))
+                     main=paste("RGI n =", ncol(rgiT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
 legend("topright", sort(unique(metaRGI$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
@@ -124,11 +124,11 @@ cols<-circleCol[factor(metaVsearch$bins)]
 
 MDS<-capscale(t(vsearchT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-cols<-circleCol
+pval<-adonis(t(vsearchT)~metaVsearch$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                     main=paste("vsearch n =", ncol(vsearchT)))
+                     main=paste("vsearch n =", ncol(vsearchT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaVsearch$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
 legend("topright", sort(unique(metaVsearch$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
