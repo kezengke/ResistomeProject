@@ -14,7 +14,7 @@ dukeSamples<-dukeSamples %>% mutate(bins = case_when(dukeSamples$Timepoint < 1 ~
                                         between(dukeSamples$Timepoint, 8, 14) ~ "Week2",
                                         between(dukeSamples$Timepoint, 15, 21) ~ "Week3",
                                         between(dukeSamples$Timepoint, 22, 28) ~ "Week4",
-                                        dukeSamples$Timepoint > 28 ~ "AfterDay28"))
+                                        dukeSamples$Timepoint > 28 ~ "Week5AndAfter"))
 
 #bracken
 brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
