@@ -4,43 +4,68 @@ dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
 rownames(dukeSamples)<-dukeSamples$Seq_sample
 rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`, 2)
 
+matchingT<-dukeSamples
+
+#bracken
+brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
+brackenT<-brackenT[, -c(1,2)] #get rid of taxonomy ID and level
+brackenT<-brackenT[, grepl("num", colnames(brackenT))] #get rid of fractions
+brackenTag<-colnames(brackenT)
+brackenTag<-gsub(".bracken.out_num", "", brackenTag) #get rid of useless info
+SampleWithDots<-sapply(str_count(brackenTag, "\\."), `[`, 1) == 2
+brackenTag[SampleWithDots]<-sub("\\.", "", brackenTag[SampleWithDots]) #get rid of random "."s in sample names
+brackenTag<-sub("\\.", "-", brackenTag) #replace . with - to match with metadata
+brackenTag<-sapply(str_split(brackenTag, "_", n = 2), `[`, 2) #keeping sequencing info for matching
+
+brackenNames<-data.frame(colnames(brackenT))
+rownames(brackenNames)<-brackenTag
+
+matchingT$brackenSampleNames<-brackenNames[rownames(matchingT), ]
+
 #AMR
 amrT<-read.delim("CountsTables/AMR_counts.tsv", sep = "\t", header = T, row.names = 1)
 amrT<-amrT[, grepl("^D", colnames(amrT))]
-colnames(amrT)<-gsub(".amrfinder.txt", "", colnames(amrT)) #get rid of useless info
-SampleWithDots<-sapply(str_count(colnames(amrT), "\\."), `[`, 1) == 2
-colnames(amrT)[SampleWithDots]<-sub("\\.", "", colnames(amrT)[SampleWithDots]) #get rid of random "."s in sample names
-colnames(amrT)<-sub("\\.", "-", colnames(amrT)) #replace . with - to match with metadata
+amrTag<-colnames(amrT)
+amrTag<-gsub(".amrfinder.txt", "", amrTag) #get rid of useless info
+SampleWithDots<-sapply(str_count(amrTag, "\\."), `[`, 1) == 2
+amrTag[SampleWithDots]<-sub("\\.", "", amrTag[SampleWithDots]) #get rid of random "."s in sample names
+amrTag<-sub("\\.", "-", amrTag) #replace . with - to match with metadata
+amrTag<-sapply(str_split(amrTag, "_", n = 2), `[`, 2) #get rid of the potentially mislabeled portion
 
-colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 2), `[`, 2)
+amrNames<-data.frame(colnames(amrT))
+rownames(amrNames)<-amrTag
 
-dukeSamples[setdiff(rownames(dukeSamples), colnames(amrT)), 4]
-dukeSamples[setdiff(colnames(amrT), rownames(dukeSamples)), 4]
+matchingT$AMRsampleNames<-amrNames[rownames(matchingT), ]
 
 #RGI
 rgiT<-read.delim("CountsTables/RGI_counts.tsv", sep = "\t", header = T, row.names = 1)
 rgiT<-rgiT[, grepl("^D", colnames(rgiT))]
-colnames(rgiT)<-gsub(".rgi.txt", "", colnames(rgiT)) #get rid of useless info
-SampleWithDots<-sapply(str_count(colnames(rgiT), "\\."), `[`, 1) == 2
-colnames(rgiT)[SampleWithDots]<-sub("\\.", "", colnames(rgiT)[SampleWithDots]) #get rid of random "."s in sample names
-colnames(rgiT)<-sub("\\.", "-", colnames(rgiT)) #replace . with - to match with metadata
+rgiTag<-colnames(rgiT)
+rgiTag<-gsub(".rgi.txt", "", rgiTag) #get rid of useless info
+SampleWithDots<-sapply(str_count(rgiTag, "\\."), `[`, 1) == 2
+rgiTag[SampleWithDots]<-sub("\\.", "", rgiTag[SampleWithDots]) #get rid of random "."s in sample names
+rgiTag<-sub("\\.", "-", rgiTag) #replace . with - to match with metadata
+rgiTag<-sapply(str_split(rgiTag, "_", n = 2), `[`, 2)
 
-colnames(rgiT)<-sapply(str_split(colnames(rgiT), "_", n = 2), `[`, 2)
+rgiNames<-data.frame(colnames(rgiT))
+rownames(rgiNames)<-rgiTag
 
-dukeSamples[setdiff(rownames(dukeSamples), colnames(rgiT)), 4]
-dukeSamples[setdiff(colnames(rgiT), rownames(dukeSamples)), 4]
+matchingT$RGIsampleNames<-rgiNames[rownames(matchingT), ]
 
 #vsearch
 vsearchT<-read.delim("CountsTables/vsearch_counts.tsv", sep = "\t", header = T, row.names = 2)
 vsearchT<-vsearchT[, -1] #get rid of index column
 vsearchT<-vsearchT[, grepl("^D", colnames(vsearchT))]
-colnames(vsearchT)<-gsub(".txt", "", colnames(vsearchT)) #get rid of useless info
+vsearchTag<-colnames(vsearchT)
+vsearchTag<-gsub(".txt", "", vsearchTag) #get rid of useless info
+SampleWithDots<-sapply(str_count(vsearchTag, "\\."), `[`, 1) == 2
+vsearchTag[SampleWithDots]<-sub("\\.", "", vsearchTag[SampleWithDots]) #get rid of random "."s in sample names
+vsearchTag<-sub("\\.", "-", vsearchTag) #replace . with - to match with metadata
+vsearchTag<-sapply(str_split(vsearchTag, "_", n = 2), `[`, 2)
 
-SampleWithDots<-sapply(str_count(colnames(vsearchT), "\\."), `[`, 1) == 2
-colnames(vsearchT)[SampleWithDots]<-sub("\\.", "", colnames(vsearchT)[SampleWithDots]) #get rid of random "."s in sample names
-colnames(vsearchT)<-sub("\\.", "-", colnames(vsearchT)) #replace . with - to match with metadata
+vsearchNames<-data.frame(colnames(vsearchT))
+rownames(vsearchNames)<-vsearchTag
 
-colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 2), `[`, 2)
+matchingT$VsearchSampleNames<-vsearchNames[rownames(matchingT), ]
 
-dukeSamples[setdiff(rownames(dukeSamples), colnames(vsearchT)), 4]
-dukeSamples[setdiff(colnames(vsearchT), rownames(dukeSamples)), 4]
+write.table(matchingT, "SampleMatchingTable.txt", sep = "\t", row.names = F)
