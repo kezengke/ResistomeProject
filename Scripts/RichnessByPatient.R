@@ -70,7 +70,7 @@ barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
 
 binCounts<-aggregate(colSums(amrT>0), list(dukeSamples[colnames(amrT), 5]), FUN=sum)
 barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3, 
-        main = "Gene Richness by Patient (AMR)", , col = adjustcolor("coral3", alpha.f = 0.7), 
+        main = "Gene Richness by Patient (AMR)", col = adjustcolor("coral3", alpha.f = 0.7), 
         ylab = "Type of Genes",
         cex.axis = 1, cex.lab = 1.5, cex.names = 1, cex.main = 1.8)
 
