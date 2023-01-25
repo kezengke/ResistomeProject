@@ -1,10 +1,17 @@
 rm(list = ls())
 library(stringr)
+library("dplyr")
 dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
 rownames(dukeSamples)<-dukeSamples$Seq_sample
 rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`, 2)
 
 matchingT<-dukeSamples
+matchingT<-matchingT %>% mutate(bins = case_when(matchingT$Timepoint < 1 ~ "<D1",
+                                                     between(matchingT$Timepoint, 1, 7) ~ "D1-D7",
+                                                     between(matchingT$Timepoint, 8, 14) ~ "D8-D14",
+                                                     between(matchingT$Timepoint, 15, 21) ~ "D15-D21",
+                                                     between(matchingT$Timepoint, 22, 28) ~ "D22-D28",
+                                                     matchingT$Timepoint > 28 ~ ">D28"))
 
 #bracken
 brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
@@ -67,5 +74,6 @@ vsearchNames<-data.frame(colnames(vsearchT))
 rownames(vsearchNames)<-vsearchTag
 
 matchingT$VsearchSampleNames<-vsearchNames[rownames(matchingT), ]
+
 
 write.table(matchingT, "SampleMatchingTable.txt", sep = "\t", row.names = F)
