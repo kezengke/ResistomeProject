@@ -2,12 +2,19 @@ rm(list = ls())
 library(stringr)
 library("RColorBrewer")
 library("vegan")
+library("dplyr")
 #metadata
 dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
 rownames(dukeSamples)<-dukeSamples$Seq_sample
 rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`, 2)
 dukeSamples$ID<-paste0("D", gsub("pre","" , sapply(str_split(dukeSamples$sample, "D", n = 3), `[`, 2), ignore.case = T)) #adding sample ID
 dukeSamples$ID<-gsub("npe", "", dukeSamples$ID, ignore.case = T)
+dukeSamples<-dukeSamples %>% mutate(bins = case_when(dukeSamples$Timepoint < 1 ~ "PRE",
+                                                     between(dukeSamples$Timepoint, 1, 7) ~ "Week1",
+                                                     between(dukeSamples$Timepoint, 8, 14) ~ "Week2",
+                                                     between(dukeSamples$Timepoint, 15, 21) ~ "Week3",
+                                                     between(dukeSamples$Timepoint, 22, 28) ~ "Week4",
+                                                     dukeSamples$Timepoint > 28 ~ "Week5AndAfter"))
 
 #bracken
 brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
@@ -60,6 +67,9 @@ metaAMR<-dukeSamples[colnames(amrT), ]
 metaRGI<-dukeSamples[colnames(rgiT), ]
 metaVsearch<-dukeSamples[colnames(vsearchT), ]
 
+circleCol<-brewer.pal(length(unique(metaBracken$bins)), "Set2")
+cols<-circleCol[factor(metaBracken$bins)]
+
 IDtypes<-unique(metaBracken$ID)
 pdf("Plots/MDSPlotsForEachPatient(bracken).pdf", width=12, height=18)
 par(mfrow=c(3,2))
@@ -74,7 +84,8 @@ for (i in 1:length(IDtypes)) {
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("Bracken-Species", IDtypes[i]))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor("tan2", alpha.f = 0.5))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
+  legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -92,7 +103,7 @@ for (i in 1:length(IDtypes)) {
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("AMR", IDtypes[i]))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor("coral3", alpha.f = 0.5))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 }
 dev.off()
 
@@ -110,7 +121,7 @@ for (i in 1:length(IDtypes)) {
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("RGI", IDtypes[i]))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor("cornflowerblue", alpha.f = 0.5))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 }
 dev.off()
 
@@ -128,6 +139,6 @@ for (i in 1:length(IDtypes)) {
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("vsearch", IDtypes[i]))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor("olivedrab4", alpha.f = 0.5))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 }
 dev.off()
