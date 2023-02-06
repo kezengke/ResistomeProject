@@ -83,7 +83,8 @@ for (i in 1:length(IDtypes)) {
   statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                       main = paste("Bracken-Species", IDtypes[i]))
+                       main = paste("Bracken-Species", IDtypes[i]),
+                       xlim = c(-2.5, 1.5), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
   legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
 }
@@ -102,7 +103,8 @@ for (i in 1:length(IDtypes)) {
   statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                       main = paste("AMR", IDtypes[i]))
+                       main = paste("AMR", IDtypes[i]),
+                       xlim = c(-3, 1.5), ylim = c(-2, 2.5))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 }
 dev.off()
@@ -120,7 +122,8 @@ for (i in 1:length(IDtypes)) {
   statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                       main = paste("RGI", IDtypes[i]))
+                       main = paste("RGI", IDtypes[i]),
+                       xlim = c(-2, 2), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 }
 dev.off()
@@ -138,7 +141,8 @@ for (i in 1:length(IDtypes)) {
   statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                        xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
-                       main = paste("vsearch", IDtypes[i]))
+                       main = paste("vsearch", IDtypes[i]),
+                       xlim = c(-1.5, 2.5), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 }
 dev.off()
