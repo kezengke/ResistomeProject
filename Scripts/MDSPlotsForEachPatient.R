@@ -95,6 +95,23 @@ for (i in 1:length(IDtypes)) {
 }
 dev.off()
 
+for (i in 1:length(IDtypes)) {
+  mdsT<-brackenT[, colnames(brackenT)[metaBracken$ID == IDtypes[i]]]
+  if(ncol(mdsT)<3)
+    next
+  MDS<-capscale(t(mdsT)~1,distance = "bray")
+  percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
+  pdf(paste0("MDSPlotsForEachPatient/Bracken/Bracken-Species", IDtypes[i], ".pdf"), width=6, height=6)
+  statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
+                       xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
+                       ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
+                       main = paste("Bracken-Species", IDtypes[i]),
+                       xlim = c(-2.5, 1.5), ylim = c(-2, 2))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
+  legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  dev.off()
+}
+
 IDtypes<-unique(metaAMR$ID)
 pdf("Plots/MDSPlotsForEachPatient(AMR).pdf", width=12, height=18)
 par(mfrow=c(3,2))
@@ -114,6 +131,23 @@ for (i in 1:length(IDtypes)) {
   legend("topright", sort(unique(metaAMR$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
+
+for (i in 1:length(IDtypes)) {
+  mdsT<-amrT[, colnames(amrT)[metaAMR$ID == IDtypes[i]]]
+  if(ncol(mdsT)<3)
+    next
+  MDS<-capscale(t(mdsT)~1,distance = "bray")
+  percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
+  pdf(paste0("MDSPlotsForEachPatient/AMR/AMR", IDtypes[i], ".pdf"), width=6, height=6)
+  statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
+                       xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
+                       ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
+                       main = paste("AMR", IDtypes[i]),
+                       xlim = c(-3, 1.5), ylim = c(-2, 2.5))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
+  legend("topright", sort(unique(metaAMR$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  dev.off()
+}
 
 IDtypes<-unique(metaRGI$ID)
 pdf("Plots/MDSPlotsForEachPatient(RGI).pdf", width=12, height=18)
@@ -135,6 +169,23 @@ for (i in 1:length(IDtypes)) {
 }
 dev.off()
 
+for (i in 1:length(IDtypes)) {
+  mdsT<-rgiT[, colnames(rgiT)[metaRGI$ID == IDtypes[i]]]
+  if(ncol(mdsT)<3)
+    next
+  MDS<-capscale(t(mdsT)~1,distance = "bray")
+  percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
+  pdf(paste0("MDSPlotsForEachPatient/RGI/RGI", IDtypes[i], ".pdf"), width=6, height=6)
+  statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
+                       xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
+                       ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
+                       main = paste("RGI", IDtypes[i]),
+                       xlim = c(-2, 2), ylim = c(-2, 2))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
+  legend("topright", sort(unique(metaRGI$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  dev.off()
+}
+
 IDtypes<-unique(metaVsearch$ID)
 pdf("Plots/MDSPlotsForEachPatient(vsearch).pdf", width=12, height=18)
 par(mfrow=c(3,2))
@@ -154,3 +205,20 @@ for (i in 1:length(IDtypes)) {
   legend("topright", sort(unique(metaVsearch$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
+
+for (i in 1:length(IDtypes)) {
+  mdsT<-vsearchT[, colnames(vsearchT)[metaVsearch$ID == IDtypes[i]]]
+  if(ncol(mdsT)<3)
+    next
+  MDS<-capscale(t(mdsT)~1,distance = "bray")
+  percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
+  pdf(paste0("MDSPlotsForEachPatient/vsearch/Vsearch", IDtypes[i], ".pdf"), width=6, height=6)
+  statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
+                       xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
+                       ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
+                       main = paste("vsearch", IDtypes[i]),
+                       xlim = c(-1.5, 2.5), ylim = c(-2, 2))
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
+  legend("topright", sort(unique(metaVsearch$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  dev.off()
+}
