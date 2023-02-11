@@ -79,7 +79,7 @@ par(mfrow=c(2,2))
 par(mar=c(5,6,4,1)+.1)
 
 #Bracken
-circleCol<-brewer.pal(length(unique(metaBracken$bins)), "Paired")
+circleCol<-brewer.pal(length(unique(metaBracken$bins)), "Spectral")
 cols<-circleCol[factor(metaBracken$bins)]
 
 MDS<-capscale(t(brackenT)~1,distance = "bray")
@@ -94,7 +94,7 @@ ordiellipse(statusPlot, metaBracken$bins, kind="se", conf=0.95, lwd=4, draw = "l
 legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #AMR
-circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Paired")
+circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Spectral")
 cols<-circleCol[factor(metaAMR$bins)]
 
 MDS<-capscale(t(amrT)~1,distance = "bray")
@@ -109,7 +109,7 @@ ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines
 legend("topleft", sort(unique(metaAMR$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #RGI
-circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Paired")
+circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Spectral")
 cols<-circleCol[factor(metaRGI$bins)]
 
 MDS<-capscale(t(rgiT)~1,distance = "bray")
@@ -124,7 +124,7 @@ ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines
 legend("topright", sort(unique(metaRGI$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #vsearch
-circleCol<-brewer.pal(length(unique(metaVsearch$bins)), "Paired") 
+circleCol<-brewer.pal(length(unique(metaVsearch$bins)), "Spectral") 
 cols<-circleCol[factor(metaVsearch$bins)]
 
 MDS<-capscale(t(vsearchT)~1,distance = "bray")
