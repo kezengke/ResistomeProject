@@ -8,12 +8,17 @@ library("dplyr")
 dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
 rownames(dukeSamples)<-dukeSamples$Seq_sample
 rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`, 2)
-dukeSamples<-dukeSamples %>% mutate(bins = case_when(dukeSamples$Timepoint < 1 ~ "PRE",
-                                                     between(dukeSamples$Timepoint, 1, 7) ~ "Week1",
-                                                     between(dukeSamples$Timepoint, 8, 14) ~ "Week2",
-                                                     between(dukeSamples$Timepoint, 15, 21) ~ "Week3",
-                                                     between(dukeSamples$Timepoint, 22, 28) ~ "Week4",
-                                                     dukeSamples$Timepoint > 28 ~ "Week5AndAfter"))
+dukeSamples<-dukeSamples %>% mutate(bins = case_when(between(dukeSamples$Timepoint, -100, -2) ~ "PRE",
+                                                     between(dukeSamples$Timepoint, -3, 3) ~ "D0",
+                                                     between(dukeSamples$Timepoint, 4, 10) ~ "D7",
+                                                     between(dukeSamples$Timepoint, 11, 17) ~ "D14",
+                                                     between(dukeSamples$Timepoint, 18, 24) ~ "D21",
+                                                     between(dukeSamples$Timepoint, 25, 31) ~ "D28",
+                                                     between(dukeSamples$Timepoint, 32, 45) ~ "D35",
+                                                     between(dukeSamples$Timepoint, 46, 75) ~ "D60",
+                                                     between(dukeSamples$Timepoint, 76, 125) ~ "D100",
+                                                     between(dukeSamples$Timepoint, 126, 235) ~ "D180",
+                                                     between(dukeSamples$Timepoint, 236, 965) ~ "D365"))
 
 #bracken
 brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
@@ -67,25 +72,25 @@ par(mfrow=c(2, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 
 binCounts<-aggregate(colSums(brackenT>0), list(dukeSamples[colnames(brackenT), 5]), FUN=sum)
-barplot(binCounts$x, names.arg=c("PRE", "1-7", "8-14", "15-21","22-28" , ">28"), 
+barplot(binCounts$x, names.arg=binCounts$Group.1,
         main = "Taxa Richness by Time (Bracken-Species)", col = adjustcolor("tan2", alpha.f = 0.7),
         ylab = "Type of Taxa", xlab = "Day", 
         cex.axis = 1, cex.lab = 1.5, cex.names = 1, cex.main = 1.8)
 
 binCounts<-aggregate(colSums(amrT>0), list(dukeSamples[colnames(amrT), 5]), FUN=sum)
-barplot(binCounts$x, names.arg=c("PRE", "1-7", "8-14", "15-21","22-28" , ">28"), 
+barplot(binCounts$x, names.arg=binCounts$Group.1,
         main = "Gene Richness by Time (AMR)", col = adjustcolor("coral3", alpha.f = 0.7), 
         ylab = "Type of Genes", xlab = "Day", 
         cex.axis = 1, cex.lab = 1.5, cex.names = 1, cex.main = 1.8)
 
 binCounts<-aggregate(colSums(rgiT>0), list(dukeSamples[colnames(rgiT), 5]), FUN=sum)
-barplot(binCounts$x, names.arg=c("PRE", "1-7", "8-14", "15-21","22-28" , ">28"), 
+barplot(binCounts$x, names.arg=binCounts$Group.1,
         main = "Gene Richness by Time (RGI)", col = adjustcolor("cornflowerblue", alpha.f = 0.7),
         ylab = "Type of Genes", xlab = "Day", 
         cex.axis = 1, cex.lab = 1.5, cex.names = 1, cex.main = 1.8)
 
 binCounts<-aggregate(colSums(vsearchT>0), list(dukeSamples[colnames(vsearchT), 5]), FUN=sum)
-barplot(binCounts$x, names.arg=c("PRE", "1-7", "8-14", "15-21","22-28" , ">28"), 
+barplot(binCounts$x, names.arg=binCounts$Group.1,
         main = "Gene Richness by Time (vsearch)", col = adjustcolor("olivedrab4", alpha.f = 0.7),
         ylab = "Type of Genes", xlab = "Day", 
         cex.axis = 1, cex.lab = 1.5, cex.names = 1, cex.main = 1.8,
