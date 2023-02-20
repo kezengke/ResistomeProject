@@ -72,9 +72,6 @@ metaAMR<-dukeSamples[colnames(amrT), ]
 metaRGI<-dukeSamples[colnames(rgiT), ]
 metaVsearch<-dukeSamples[colnames(vsearchT), ]
 
-circleCol<-brewer.pal(length(unique(metaBracken$bins)), "Spectral")
-cols<-circleCol[factor(metaBracken$bins)]
-
 TimePointtypes<-unique(metaBracken$bins)
 pdf("Plots/MDSPlotsForEachPatient(bracken).pdf", width=12, height=18)
 for (i in 1:length(TimePointtypes)) {
