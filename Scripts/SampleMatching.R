@@ -7,16 +7,16 @@ rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`,
 
 matchingT<-dukeSamples
 dukeSamples<-dukeSamples %>% mutate(bins = case_when(between(dukeSamples$Timepoint, -100, -2) ~ "PRE",
-                                                     between(dukeSamples$Timepoint, -3, 3) ~ "D0",
-                                                     between(dukeSamples$Timepoint, 4, 10) ~ "D7",
+                                                     # between(dukeSamples$Timepoint, -3, 3) ~ "D0",
+                                                     between(dukeSamples$Timepoint, -3, 10) ~ "D7",
                                                      between(dukeSamples$Timepoint, 11, 17) ~ "D14",
                                                      between(dukeSamples$Timepoint, 18, 24) ~ "D21",
-                                                     between(dukeSamples$Timepoint, 25, 31) ~ "D28",
-                                                     between(dukeSamples$Timepoint, 32, 45) ~ "D35",
+                                                     # between(dukeSamples$Timepoint, 25, 31) ~ "D28",
+                                                     between(dukeSamples$Timepoint, 25, 45) ~ "D35",
                                                      between(dukeSamples$Timepoint, 46, 75) ~ "D60",
-                                                     between(dukeSamples$Timepoint, 76, 125) ~ "D100",
-                                                     between(dukeSamples$Timepoint, 126, 235) ~ "D180",
-                                                     between(dukeSamples$Timepoint, 236, 965) ~ "D365"))
+                                                     # between(dukeSamples$Timepoint, 76, 125) ~ "D100",
+                                                     # between(dukeSamples$Timepoint, 126, 235) ~ "D180",
+                                                     between(dukeSamples$Timepoint, 76, 965) ~ "D100"))
 
 #bracken
 brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
