@@ -73,7 +73,6 @@ metaRGI<-dukeSamples[colnames(rgiT), ]
 metaVsearch<-dukeSamples[colnames(vsearchT), ]
 
 TimePointtypes<-unique(metaBracken$bins)
-pdf("Plots/MDSPlotsForEachPatient(bracken).pdf", width=12, height=18)
 for (i in 1:length(TimePointtypes)) {
   mdsT<-brackenT[, colnames(brackenT)[metaBracken$bins == TimePointtypes[i]]]
   if(ncol(mdsT)<3)
