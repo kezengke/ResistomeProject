@@ -70,7 +70,7 @@ barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
 
 binCounts<-aggregate(colSums(amrT), list(dukeSamples[colnames(amrT), 5]), FUN=sum)
 barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3, 
-        main = "Gene Counts by Patient (AMR)", , col = "coral3", 
+        main = "Gene Counts by Patient (AMR)", col = "coral3", 
         ylab = "Gene Counts",
         cex.axis = 1, cex.lab = 1.5, cex.names = 1, cex.main = 1.8)
 
