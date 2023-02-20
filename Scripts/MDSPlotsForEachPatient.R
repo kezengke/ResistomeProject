@@ -73,7 +73,7 @@ metaRGI<-dukeSamples[colnames(rgiT), ]
 metaVsearch<-dukeSamples[colnames(vsearchT), ]
 
 circleCol<-brewer.pal(length(unique(metaBracken$bins)), "Spectral")
-cols<-circleCol[factor(metaBracken$bins)]
+cols<-circleCol[factor(metaBracken$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
 
 IDtypes<-unique(metaBracken$ID)
 pdf("Plots/MDSPlotsForEachPatient(bracken).pdf", width=12, height=18)
@@ -91,7 +91,7 @@ for (i in 1:length(IDtypes)) {
                        main = paste("Bracken-Species", IDtypes[i]),
                        xlim = c(-2.5, 1.5), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -108,9 +108,12 @@ for (i in 1:length(IDtypes)) {
                        main = paste("Bracken-Species", IDtypes[i]),
                        xlim = c(-2.5, 1.5), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
+
+circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Spectral")
+cols<-circleCol[factor(metaAMR$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
 
 IDtypes<-unique(metaAMR$ID)
 pdf("Plots/MDSPlotsForEachPatient(AMR).pdf", width=12, height=18)
@@ -128,7 +131,7 @@ for (i in 1:length(IDtypes)) {
                        main = paste("AMR", IDtypes[i]),
                        xlim = c(-3, 1.5), ylim = c(-2, 2.5))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaAMR$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -145,9 +148,12 @@ for (i in 1:length(IDtypes)) {
                        main = paste("AMR", IDtypes[i]),
                        xlim = c(-3, 1.5), ylim = c(-2, 2.5))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaAMR$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
+
+circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Spectral")
+cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
 
 IDtypes<-unique(metaRGI$ID)
 pdf("Plots/MDSPlotsForEachPatient(RGI).pdf", width=12, height=18)
@@ -165,7 +171,7 @@ for (i in 1:length(IDtypes)) {
                        main = paste("RGI", IDtypes[i]),
                        xlim = c(-2, 2), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaRGI$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -182,9 +188,12 @@ for (i in 1:length(IDtypes)) {
                        main = paste("RGI", IDtypes[i]),
                        xlim = c(-2, 2), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaRGI$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
+
+circleCol<-brewer.pal(length(unique(metaVsearch$bins)), "Spectral")
+cols<-circleCol[factor(metaVsearch$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
 
 IDtypes<-unique(metaVsearch$ID)
 pdf("Plots/MDSPlotsForEachPatient(vsearch).pdf", width=12, height=18)
@@ -202,7 +211,7 @@ for (i in 1:length(IDtypes)) {
                        main = paste("vsearch", IDtypes[i]),
                        xlim = c(-1.5, 2.5), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaVsearch$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -219,6 +228,6 @@ for (i in 1:length(IDtypes)) {
                        main = paste("vsearch", IDtypes[i]),
                        xlim = c(-1.5, 2.5), ylim = c(-2, 2))
   points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", sort(unique(metaVsearch$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
