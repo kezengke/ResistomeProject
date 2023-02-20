@@ -9,12 +9,17 @@ dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
 rownames(dukeSamples)<-dukeSamples$Seq_sample
 rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`, 2)
 
-dukeSamples<-dukeSamples %>% mutate(bins = case_when(dukeSamples$Timepoint < 1 ~ "PRE",
-                                        between(dukeSamples$Timepoint, 1, 7) ~ "Week1",
-                                        between(dukeSamples$Timepoint, 8, 14) ~ "Week2",
-                                        between(dukeSamples$Timepoint, 15, 21) ~ "Week3",
-                                        between(dukeSamples$Timepoint, 22, 28) ~ "Week4",
-                                        dukeSamples$Timepoint > 28 ~ "Week5AndAfter"))
+dukeSamples<-dukeSamples %>% mutate(bins = case_when(between(dukeSamples$Timepoint, -100, -2) ~ "PRE",
+                                        between(dukeSamples$Timepoint, -3, 3) ~ "D0",
+                                        between(dukeSamples$Timepoint, 4, 10) ~ "D7",
+                                        between(dukeSamples$Timepoint, 11, 17) ~ "D14",
+                                        between(dukeSamples$Timepoint, 18, 24) ~ "D21",
+                                        between(dukeSamples$Timepoint, 25, 31) ~ "D28",
+                                        between(dukeSamples$Timepoint, 32, 45) ~ "D35",
+                                        between(dukeSamples$Timepoint, 46, 75) ~ "D60",
+                                        between(dukeSamples$Timepoint, 76, 125) ~ "D100",
+                                        between(dukeSamples$Timepoint, 126, 235) ~ "D180",
+                                        between(dukeSamples$Timepoint, 236, 965) ~ "D365"))
 
 #bracken
 brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
@@ -74,63 +79,63 @@ par(mfrow=c(2,2))
 par(mar=c(5,6,4,1)+.1)
 
 #Bracken
-circleCol<-brewer.pal(length(unique(metaBracken$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaBracken$bins)), "Spectral")
 cols<-circleCol[factor(metaBracken$bins)]
 
 MDS<-capscale(t(brackenT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis(t(brackenT)~metaBracken$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(brackenT)~metaBracken$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                      xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main = paste("Bracken-Species n =", ncol(brackenT), "\nP-value:",pval))
 points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaBracken$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
+legend("topright", sort(unique(metaBracken$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #AMR
-circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Spectral")
 cols<-circleCol[factor(metaAMR$bins)]
 
 MDS<-capscale(t(amrT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis(t(amrT)~metaAMR$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(amrT)~metaAMR$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main=paste("AMR n =", ncol(amrT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topleft", sort(unique(metaAMR$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
+legend("topleft", sort(unique(metaAMR$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #RGI
-circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Spectral")
 cols<-circleCol[factor(metaRGI$bins)]
 
 MDS<-capscale(t(rgiT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis(t(rgiT)~metaRGI$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(rgiT)~metaRGI$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main=paste("RGI n =", ncol(rgiT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", sort(unique(metaRGI$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
+legend("topright", sort(unique(metaRGI$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #vsearch
-circleCol<-brewer.pal(length(unique(metaVsearch$bins)), "Set3") 
+circleCol<-brewer.pal(length(unique(metaVsearch$bins)), "Spectral") 
 cols<-circleCol[factor(metaVsearch$bins)]
 
 MDS<-capscale(t(vsearchT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis(t(vsearchT)~metaVsearch$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(vsearchT)~metaVsearch$bins, method="bray")$aov.tab$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main=paste("vsearch n =", ncol(vsearchT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaVsearch$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", sort(unique(metaVsearch$bins)), col = circleCol[1:6], cex = 1, pch = 16, bty = "n")
+legend("topright", sort(unique(metaVsearch$bins)), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 dev.off()
