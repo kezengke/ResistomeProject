@@ -72,26 +72,26 @@ par(mfrow=c(2, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 
 binCounts<-aggregate(colSums(brackenT), list(dukeSamples[colnames(brackenT), 5]), FUN=sum)
-binCounts<-binCounts[c(11, 1, 10, 3, 5, 6, 7, 9, 2, 4, 8),]
-barplot(binCounts$x, names.arg=c("PRE", "D0", "D7", "D14","D21" , "D28", "D35", "D60", "D100", "D180", "D365"), 
+binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
+barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Taxa Counts by Time (Bracken-Species)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
         xlab = "Time Points (Days)", ylab = "Counts(Normalized)", col = "tan2")
 
 binCounts<-aggregate(colSums(amrT), list(dukeSamples[colnames(amrT), 5]), FUN=sum)
-binCounts<-binCounts[c(11, 1, 10, 3, 5, 6, 7, 9, 2, 4, 8),]
-barplot(binCounts$x, names.arg=c("PRE", "D0", "D7", "D14","D21" , "D28", "D35", "D60", "D100", "D180", "D365"), 
+binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
+barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Gene Counts by Time (AMR)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
         xlab = "Time Points (Days)", ylab = "Counts", col = "coral3")
 
 binCounts<-aggregate(colSums(rgiT), list(dukeSamples[colnames(rgiT), 5]), FUN=sum)
-binCounts<-binCounts[c(11, 1, 10, 3, 5, 6, 7, 9, 2, 4, 8),]
-barplot(binCounts$x, names.arg=c("PRE", "D0", "D7", "D14","D21" , "D28", "D35", "D60", "D100", "D180", "D365"), 
+binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
+barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Gene Counts by Time (RGI)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
         xlab = "Time Points (Days)", ylab = "Counts", col = "cornflowerblue")
 
 binCounts<-aggregate(colSums(vsearchT), list(dukeSamples[colnames(vsearchT), 5]), FUN=sum)
-binCounts<-binCounts[c(11, 1, 10, 3, 5, 6, 7, 9, 2, 4, 8),]
-barplot(binCounts$x, names.arg=c("PRE", "D0", "D7", "D14","D21" , "D28", "D35", "D60", "D100", "D180", "D365"), 
+binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
+barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Gene Counts by Time (vsearch)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
         xlab = "Time Points (Days)", ylab = "Counts", col = "olivedrab4")
 
