@@ -38,6 +38,7 @@ SampleWithDots<-sapply(str_count(colnames(amrT), "\\."), `[`, 1) == 2
 colnames(amrT)[SampleWithDots]<-sub("\\.", "", colnames(amrT)[SampleWithDots]) #get rid of random "."s in sample names
 colnames(amrT)<-sub("\\.", "-", colnames(amrT)) #replace . with - to match with metadata
 colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 2), `[`, 2)
+amrT<-amrT[, -27]
 
 #RGI
 rgiT<-read.delim("CountsTables/RGI_counts.tsv", sep = "\t", header = T, row.names = 2)
@@ -65,9 +66,23 @@ n<-colSums(brackenT)
 sumx<-sum(brackenT)
 brackenT<-log10((brackenT/n)*(sumx/ncol(brackenT))+1)
 
-amrT<-amrT/sum(amrT)
-rgiT<-rgiT/sum(rgiT)
-vsearchT<-vsearchT/sum(vsearchT)
+n<-colSums(amrT)
+sumx<-sum(amrT)
+amrT<-log10((amrT/n)*(sumx/ncol(amrT))+1)
+
+n<-colSums(rgiT)
+sumx<-sum(rgiT)
+rgiT<-log10((rgiT/n)*(sumx/ncol(rgiT))+1)
+
+n<-colSums(vsearchT)
+sumx<-sum(vsearchT)
+vsearchT<-log10((vsearchT/n)*(sumx/ncol(vsearchT))+1)
+
+#meta for each table
+metaBracken<-dukeSamples[colnames(brackenT), ]
+metaAMR<-dukeSamples[colnames(amrT), ]
+metaRGI<-dukeSamples[colnames(rgiT), ]
+metaVsearch<-dukeSamples[colnames(vsearchT), ]
 
 #lm 2nd order
 pdf("Plots/SecondOrderMixedLm(Bracken).pdf", width=12, height=18)
@@ -75,15 +90,15 @@ par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 brackenT<-brackenT[apply(brackenT == 0, 1, sum) <= (ncol(brackenT)*0.8), ]
 for (i in 1:nrow(brackenT)) {
-  myM<-data.frame(unlist(brackenT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(brackenT[i, ]), metaBracken$Timepoint, metaBracken$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ poly(timePoint, 2), random = ~1 | ID, data = myM)
   pval<-anova(Model)[2,4]
-  plot(dukeSamples$Timepoint, unlist(brackenT[i,]), 
+  plot(metaBracken$Timepoint, unlist(brackenT[i,]), 
        pch = 19, col = "tan2", 
        main = paste("Bracken(Species)\n", rownames(brackenT)[i], "\nANOVA Pval:", signif(pval, 3)),
        xlab = "TimePoints", ylab = "Counts(Log10)")
-  lines(sort(dukeSamples$Timepoint), fitted(Model)[order(dukeSamples$Timepoint)], 
+  lines(sort(metaBracken$Timepoint), fitted(Model)[order(metaBracken$Timepoint)], 
         col = "grey", type = "l")
 }
 dev.off()
@@ -93,15 +108,15 @@ par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 amrT<-amrT[apply(amrT == 0, 1, sum) <= (ncol(amrT)*0.8), ]
 for (i in 1:nrow(amrT)) {
-  myM<-data.frame(unlist(amrT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ poly(timePoint, 2), random = ~1 | ID, data = myM)
   pval<-anova(Model)[2,4]
-  plot(dukeSamples$Timepoint, unlist(amrT[i,]), 
+  plot(metaAMR$Timepoint, unlist(amrT[i,]), 
        pch = 19, col = "coral3", 
        main = paste("AMR\n", rownames(amrT)[i], "\nANOVA Pval:", signif(pval, 3)),
        xlab = "TimePoints", ylab = "Relative Abundance")
-  lines(sort(dukeSamples$Timepoint), fitted(Model)[order(dukeSamples$Timepoint)], 
+  lines(sort(metaAMR$Timepoint), fitted(Model)[order(metaAMR$Timepoint)], 
         col = "grey", type = "l")
 }
 dev.off()
@@ -111,15 +126,15 @@ par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 rgiT<-rgiT[apply(rgiT == 0, 1, sum) <= (ncol(rgiT)*0.8), ]
 for (i in 1:nrow(rgiT)) {
-  myM<-data.frame(unlist(rgiT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ poly(timePoint, 2), random = ~1 | ID, data = myM)
   pval<-anova(Model)[2,4]
-  plot(dukeSamples$Timepoint, unlist(rgiT[i,]), 
+  plot(metaRGI$Timepoint, unlist(rgiT[i,]), 
        pch = 19, col = "cornflowerblue", 
        main = paste("RGI\n", rownames(rgiT)[i], "\nANOVA Pval:", signif(pval, 3)),
        xlab = "TimePoints", ylab = "Relative Abundance")
-  lines(sort(dukeSamples$Timepoint), fitted(Model)[order(dukeSamples$Timepoint)], 
+  lines(sort(metaRGI$Timepoint), fitted(Model)[order(metaRGI$Timepoint)], 
         col = "grey", type = "l")
 }
 dev.off()
@@ -129,16 +144,16 @@ par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 vsearchT<-vsearchT[apply(vsearchT == 0, 1, sum) <= (ncol(vsearchT)*0.8), ]
 for (i in 1:nrow(vsearchT)) {
-  myM<-data.frame(unlist(vsearchT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(vsearchT[i, ]), metaVsearch$Timepoint, metaVsearch$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ poly(timePoint, 2), random = ~1 | ID, data = myM)
   pval<-anova(Model)[2,4]
-  plot(dukeSamples$Timepoint, unlist(vsearchT[i,]), 
+  plot(metaVsearch$Timepoint, unlist(vsearchT[i,]), 
        pch = 19, col = "olivedrab4", 
        main = paste("vsearch\n", strsplit(rownames(vsearchT)[i], "\\|")[[1]][6], 
                     "\nANOVA Pval:", signif(pval, 3)),
        xlab = "TimePoints", ylab = "Relative Abundance")
-  lines(sort(dukeSamples$Timepoint), fitted(Model)[order(dukeSamples$Timepoint)], 
+  lines(sort(metaVsearch$Timepoint), fitted(Model)[order(metaVsearch$Timepoint)], 
         col = "grey", type = "l")
 }
 dev.off()
