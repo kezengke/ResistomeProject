@@ -38,6 +38,7 @@ SampleWithDots<-sapply(str_count(colnames(amrT), "\\."), `[`, 1) == 2
 colnames(amrT)[SampleWithDots]<-sub("\\.", "", colnames(amrT)[SampleWithDots]) #get rid of random "."s in sample names
 colnames(amrT)<-sub("\\.", "-", colnames(amrT)) #replace . with - to match with metadata
 colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 2), `[`, 2)
+amrT<-amrT[, -27]
 
 #RGI
 rgiT<-read.delim("CountsTables/RGI_counts.tsv", sep = "\t", header = T, row.names = 1)
@@ -65,14 +66,32 @@ n<-colSums(brackenT)
 sumx<-sum(brackenT)
 brackenT<-log10((brackenT/n)*(sumx/ncol(brackenT))+1)
 
-pdf("Plots/MixedLmPvalHistograms.pdf", width=12, height=12)
+n<-colSums(amrT)
+sumx<-sum(amrT)
+amrT<-log10((amrT/n)*(sumx/ncol(amrT))+1)
+
+n<-colSums(rgiT)
+sumx<-sum(rgiT)
+rgiT<-log10((rgiT/n)*(sumx/ncol(rgiT))+1)
+
+n<-colSums(vsearchT)
+sumx<-sum(vsearchT)
+vsearchT<-log10((vsearchT/n)*(sumx/ncol(vsearchT))+1)
+
+#meta for each table
+metaBracken<-dukeSamples[colnames(brackenT), ]
+metaAMR<-dukeSamples[colnames(amrT), ]
+metaRGI<-dukeSamples[colnames(rgiT), ]
+metaVsearch<-dukeSamples[colnames(vsearchT), ]
+
+pdf("Plots/MixedSecondOrderLmPvalHistograms.pdf", width=12, height=12)
 par(mfrow=c(2, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 
 brackenT<-brackenT[apply(brackenT == 0, 1, sum) <= (ncol(brackenT)*0.8), ]
 modelPvals<-vector()
 for (i in 1:nrow(brackenT)) {
-  myM<-data.frame(unlist(brackenT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(brackenT[i, ]), metaBracken$Timepoint, metaBracken$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
   modelPvals[i]<-summary(Model)$tTable[2,5]
@@ -87,7 +106,7 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 amrT<-amrT[apply(amrT == 0, 1, sum) <= (ncol(amrT)*0.8), ]
 modelPvals<-vector()
 for (i in 1:nrow(amrT)) {
-  myM<-data.frame(unlist(amrT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
   modelPvals[i]<-summary(Model)$tTable[2,5]
@@ -102,7 +121,7 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 rgiT<-rgiT[apply(rgiT == 0, 1, sum) <= (ncol(rgiT)*0.8), ]
 modelPvals<-vector()
 for (i in 1:nrow(rgiT)) {
-  myM<-data.frame(unlist(rgiT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
   modelPvals[i]<-summary(Model)$tTable[2,5]
@@ -117,7 +136,7 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 vsearchT<-vsearchT[apply(vsearchT == 0, 1, sum) <= (ncol(vsearchT)*0.8), ]
 modelPvals<-vector()
 for (i in 1:nrow(vsearchT)) {
-  myM<-data.frame(unlist(vsearchT[i, ]), dukeSamples$Timepoint, dukeSamples$ID)
+  myM<-data.frame(unlist(vsearchT[i, ]), metaVsearch$Timepoint, metaVsearch$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
   modelPvals[i]<-summary(Model)$tTable[2,5]
