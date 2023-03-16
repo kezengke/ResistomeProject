@@ -94,7 +94,7 @@ for (i in 1:nrow(brackenT)) {
   myM<-data.frame(unlist(brackenT[i, ]), metaBracken$Timepoint, metaBracken$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
-  modelPvals[i]<-summary(Model)$tTable[2,5]
+  modelPvals[i]<-anova(Model)[2,4]
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "tan2",
@@ -109,7 +109,7 @@ for (i in 1:nrow(amrT)) {
   myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
-  modelPvals[i]<-summary(Model)$tTable[2,5]
+  modelPvals[i]<-anova(Model)[2,4]
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "coral3",
@@ -124,7 +124,7 @@ for (i in 1:nrow(rgiT)) {
   myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
-  modelPvals[i]<-summary(Model)$tTable[2,5]
+  modelPvals[i]<-anova(Model)[2,4]
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "cornflowerblue",
@@ -139,7 +139,7 @@ for (i in 1:nrow(vsearchT)) {
   myM<-data.frame(unlist(vsearchT[i, ]), metaVsearch$Timepoint, metaVsearch$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
   Model<-lme(counts ~ timePoint, random = ~1 | ID, data = myM)
-  modelPvals[i]<-summary(Model)$tTable[2,5]
+  modelPvals[i]<-anova(Model)[2,4]
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "olivedrab4",
