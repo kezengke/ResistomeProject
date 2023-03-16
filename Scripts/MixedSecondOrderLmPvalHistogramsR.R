@@ -98,7 +98,7 @@ for (i in 1:nrow(brackenT)) {
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "tan2",
-     main = "Bracken(Species) Mixed LM P-vals", 
+     main = "Bracken(Species) Mixed LM ANOVA P-vals", 
      xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
@@ -113,7 +113,7 @@ for (i in 1:nrow(amrT)) {
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "coral3",
-     main = "AMR Mixed LM P-vals", 
+     main = "AMR Mixed LM ANOVA P-vals", 
      xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
@@ -128,7 +128,7 @@ for (i in 1:nrow(rgiT)) {
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "cornflowerblue",
-     main = "RGI Mixed LM P-vals", 
+     main = "RGI Mixed LM ANOVA P-vals", 
      xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
@@ -143,7 +143,7 @@ for (i in 1:nrow(vsearchT)) {
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "olivedrab4",
-     main = "vsearch Mixed LM P-vals", 
+     main = "vsearch Mixed LM ANOVA P-vals", 
      xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
