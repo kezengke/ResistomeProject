@@ -35,7 +35,10 @@ colnames(brackenT)<-sapply(str_split(colnames(brackenT), "_", n = 2), `[`, 2) #k
 #Normalization
 n<-colSums(brackenT)
 sumx<-sum(brackenT)
-brackenT<-log10((brackenT/n)*(sumx/ncol(brackenT))+1)
+for (i in 1:ncol(brackenT)) {
+  brackenT[,i]<-brackenT[,i]/n[i]
+}
+brackenT<-log10(brackenT*(sumx/ncol(brackenT))+1)
 
 #AMR
 amrT<-read.delim("CountsTables/AMR_counts.tsv", sep = "\t", header = T, row.names = 1)

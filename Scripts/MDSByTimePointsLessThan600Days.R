@@ -32,7 +32,7 @@ colnames(brackenT)[SampleWithDots]<-sub("\\.", "", colnames(brackenT)[SampleWith
 colnames(brackenT)<-sub("\\.", "-", colnames(brackenT)) #replace . with - to match with metadata
 colnames(brackenT)<-sapply(str_split(colnames(brackenT), "_", n = 2), `[`, 2) #keeping sequencing info for matching
 
-dukeSamples[setdiff(rownames(dukeSamples), colnames(brackenT)), 4] #for missing samples in bracken counts table 
+brackenT<-brackenT[, -which(colnames(brackenT) %in% c(rownames(dukeSamples)[dukeSamples$Timepoint>600])) ]
 
 #Normalization
 n<-colSums(brackenT)
@@ -51,6 +51,8 @@ colnames(amrT)[SampleWithDots]<-sub("\\.", "", colnames(amrT)[SampleWithDots]) #
 colnames(amrT)<-sub("\\.", "-", colnames(amrT)) #replace . with - to match with metadata
 colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 2), `[`, 2)
 
+amrT<-amrT[, -which(colnames(amrT) %in% c(rownames(dukeSamples)[dukeSamples$Timepoint>600])) ]
+
 #RGI
 rgiT<-read.delim("CountsTables/RGI_counts.tsv", sep = "\t", header = T, row.names = 1)
 rgiT<-rgiT[, grepl("^D", colnames(rgiT))]
@@ -59,6 +61,8 @@ SampleWithDots<-sapply(str_count(colnames(rgiT), "\\."), `[`, 1) == 2
 colnames(rgiT)[SampleWithDots]<-sub("\\.", "", colnames(rgiT)[SampleWithDots]) #get rid of random "."s in sample names
 colnames(rgiT)<-sub("\\.", "-", colnames(rgiT)) #replace . with - to match with metadata
 colnames(rgiT)<-sapply(str_split(colnames(rgiT), "_", n = 2), `[`, 2)
+
+rgiT<-rgiT[, -which(colnames(rgiT) %in% c(rownames(dukeSamples)[dukeSamples$Timepoint>600])) ]
 
 #vsearch
 vsearchT<-read.delim("CountsTables/vsearch_counts.tsv", sep = "\t", header = T, row.names = 2)
@@ -71,13 +75,15 @@ colnames(vsearchT)[SampleWithDots]<-sub("\\.", "", colnames(vsearchT)[SampleWith
 colnames(vsearchT)<-sub("\\.", "-", colnames(vsearchT)) #replace . with - to match with metadata
 colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 2), `[`, 2)
 
+vsearchT<-vsearchT[, -which(colnames(vsearchT) %in% c(rownames(dukeSamples)[dukeSamples$Timepoint>600])) ]
+
 #meta for each table
 metaBracken<-dukeSamples[colnames(brackenT), ]
 metaAMR<-dukeSamples[colnames(amrT), ]
 metaRGI<-dukeSamples[colnames(rgiT), ]
 metaVsearch<-dukeSamples[colnames(vsearchT), ]
 
-pdf("Plots/MDSForAll(ColoredByTimePoints).pdf", width=12, height=12)
+pdf("Plots/MDSForAllLessThan600Days(ColoredByTimePoints).pdf", width=12, height=12)
 par(mfrow=c(2,2))
 par(mar=c(5,6,4,1)+.1)
 

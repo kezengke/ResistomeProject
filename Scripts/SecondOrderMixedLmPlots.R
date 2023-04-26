@@ -64,19 +64,31 @@ colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 2), `[`, 2)
 #Normalization
 n<-colSums(brackenT)
 sumx<-sum(brackenT)
-brackenT<-log10((brackenT/n)*(sumx/ncol(brackenT))+1)
+for (i in 1:ncol(brackenT)) {
+  brackenT[,i]<-brackenT[,i]/n[i]
+}
+brackenT<-log10(brackenT*(sumx/ncol(brackenT))+1)
 
 n<-colSums(amrT)
 sumx<-sum(amrT)
-amrT<-log10((amrT/n)*(sumx/ncol(amrT))+1)
+for (i in 1:ncol(amrT)) {
+  amrT[,i]<-amrT[,i]/n[i]
+}
+amrT<-log10(amrT*(sumx/ncol(amrT))+1)
 
 n<-colSums(rgiT)
 sumx<-sum(rgiT)
-rgiT<-log10((rgiT/n)*(sumx/ncol(rgiT))+1)
+for (i in 1:ncol(rgiT)) {
+  rgiT[,i]<-rgiT[,i]/n[i]
+}
+rgiT<-log10(rgiT*(sumx/ncol(rgiT))+1)
 
 n<-colSums(vsearchT)
 sumx<-sum(vsearchT)
-vsearchT<-log10((vsearchT/n)*(sumx/ncol(vsearchT))+1)
+for (i in 1:ncol(vsearchT)) {
+  vsearchT[,i]<-vsearchT[,i]/n[i]
+}
+vsearchT<-log10(vsearchT*(sumx/ncol(vsearchT))+1)
 
 #meta for each table
 metaBracken<-dukeSamples[colnames(brackenT), ]
