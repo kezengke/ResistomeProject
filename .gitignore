@@ -11,7 +11,8 @@ Scripts/MDSByPatients.R
 Plots/MDSForAll(ColoredByPatients).pdf
 duke_bracken.out
 CountsTables/
-Plots/SortedSecondOrderMixedLm(AMR).pdf
-Plots/SortedSecondOrderMixedLm(Bracken).pdf
-Plots/SortedSecondOrderMixedLm(RGI).pdf
-Plots/SortedSecondOrderMixedLm(vsearch).pdf
+AntibioticsExposure.csv
+Antibiotics_Duke_perpatient_2023_03.xlsx
+MASTER_AMRlist_2023_03.csv
+MASTER_AMRlist_2023_03.xlsx
+Plots/SortedSecondOrderMixedLm\(AMR\).pdf
