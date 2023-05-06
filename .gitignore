@@ -11,3 +11,7 @@ Scripts/MDSByPatients.R
 Plots/MDSForAll(ColoredByPatients).pdf
 duke_bracken.out
 CountsTables/
+Plots/SortedSecondOrderMixedLm\(AMR\).pdf
+Plots/SortedSecondOrderMixedLm\(Bracken\).pdf
+Plots/SortedSecondOrderMixedLm\(RGI\).pdf
+Plots/SortedSecondOrderMixedLm\(vsearch\).pdf
