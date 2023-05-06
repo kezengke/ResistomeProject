@@ -64,7 +64,10 @@ colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 2), `[`, 2)
 #Normalization
 n<-colSums(brackenT)
 sumx<-sum(brackenT)
-brackenT<-log10((brackenT/n)*(sumx/ncol(brackenT))+1)
+for (i in 1:ncol(brackenT)) {
+  brackenT[,i]<-brackenT[,i]/n[i]
+}
+brackenT<-log10(brackenT*(sumx/ncol(brackenT))+1)
 
 #lm 2nd order
 pdf("Plots/SecondOrderLm(Bracken).pdf", width=12, height=18)
