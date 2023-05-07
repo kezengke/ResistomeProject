@@ -8,9 +8,9 @@ geneMatchT<-read.csv("MASTER_AMRlist_2023_03.csv", sep = ",", header = T)
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
 #gene counts tables
-amrT<-read.csv("CountsTables/amrProcessed.csv", header = T, row.names = 1, check.names = F)
-rgiT<-read.csv("CountsTables/rgiProcessed.csv", header = T, row.names = 1, check.names = F)
-vsearchT<-read.csv("CountsTables/vsearchProcessed.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
 
 #AMR
 #keep only the rows present in amr counts table in master list
