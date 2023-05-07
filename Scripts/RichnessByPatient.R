@@ -9,7 +9,6 @@ par(mar=c(5, 6, 4, 1)+.1)
 #BRACKEN
 brackenT<-read.csv("CountsTables/brackenProcessed.csv", header = T, row.names = 1, check.names = F)
 metaBRACKEN<-metaData[colnames(brackenT), , drop = F]
-ID<-unique(metaBRACKEN$PID)
 
 binCounts<-aggregate(colSums(brackenT>0), list(metaBRACKEN[colnames(brackenT), 5]), FUN=sum)
 barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
@@ -20,7 +19,6 @@ barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
 #AMR
 amrT<-read.csv("CountsTables/amrProcessed.csv", header = T, row.names = 1, check.names = F)
 metaAMR<-metaData[colnames(amrT), , drop = F]
-ID<-unique(metaAMR$PID)
 
 binCounts<-aggregate(colSums(amrT>0), list(metaAMR[colnames(amrT), 5]), FUN=sum)
 barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
@@ -31,7 +29,6 @@ barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
 #RGI
 rgiT<-read.csv("CountsTables/rgiProcessed.csv", header = T, row.names = 1, check.names = F)
 metaRGI<-metaData[colnames(rgiT), , drop = F]
-ID<-unique(metaRGI$PID)
 
 binCounts<-aggregate(colSums(rgiT>0), list(metaRGI[colnames(rgiT), 5]), FUN=sum)
 barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
@@ -42,7 +39,6 @@ barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
 #VSEARCH
 vsearchT<-read.csv("CountsTables/vsearchProcessed.csv", header = T, row.names = 1, check.names = F)
 metaVSEARCH<-metaData[colnames(vsearchT), , drop = F]
-ID<-unique(metaVSEARCH$PID)
 
 binCounts<-aggregate(colSums(vsearchT>0), list(metaVSEARCH[colnames(vsearchT), 5]), FUN=sum)
 barplot(binCounts$x, names.arg=binCounts$Group.1, las = 3,
