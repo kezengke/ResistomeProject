@@ -329,4 +329,4 @@ bigT<-cbind(bigT, rbind(amr, rgi, vsearch))
 
 colnames(bigT)<-c("GenesOnly", "adjGenesOnly", "AMRGeneFamily", "adjAMRGeneFamily", "CorrectedAMRClassification", "adjCorrectedAMRClassification", "DrugClass", "adjDrugClass")
 
-write.csv(bigT, "HitsTable.txt")
+write.csv(bigT, "HitsTable.csv")
