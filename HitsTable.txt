@@ -1,4 +1,0 @@
-"GenesOnly"	"adjGenesOnly"	"AMRGeneFamily"	"adjAMRGeneFamily"	"CorrectedAMRClassification"	"adjCorrectedAMRClassification"	"DrugClass"	"adjDrugClass"
-"amr"	1	0	0	0	0	0	0	0
-"rgi"	12	2	2	0	3	0	3	0
-"vsearch"	57	12	10	2	6	1	13	1
