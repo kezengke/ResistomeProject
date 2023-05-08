@@ -1,101 +1,44 @@
 rm(list = ls())
-library(stringr)
-library("RColorBrewer")
-library("vegan")
-library("dplyr")
 
-#metadata
-dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
-rownames(dukeSamples)<-dukeSamples$Seq_sample
-rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`, 2)
+metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
-dukeSamples<-dukeSamples %>% mutate(bins = case_when(between(dukeSamples$Timepoint, -100, -2) ~ "PRE",
-                                                     # between(dukeSamples$Timepoint, -3, 3) ~ "D0",
-                                                     between(dukeSamples$Timepoint, -3, 10) ~ "D7",
-                                                     between(dukeSamples$Timepoint, 11, 17) ~ "D14",
-                                                     between(dukeSamples$Timepoint, 18, 24) ~ "D21",
-                                                     # between(dukeSamples$Timepoint, 25, 31) ~ "D28",
-                                                     between(dukeSamples$Timepoint, 25, 45) ~ "D35",
-                                                     between(dukeSamples$Timepoint, 46, 75) ~ "D60",
-                                                     # between(dukeSamples$Timepoint, 76, 125) ~ "D100",
-                                                     # between(dukeSamples$Timepoint, 126, 235) ~ "D180",
-                                                     between(dukeSamples$Timepoint, 76, 965) ~ "D100"))
-#bracken
-brackenT<-read.delim("CountsTables/duke_bracken.csv", sep = ",", header = T, row.names = 1)
-brackenT<-brackenT[, -c(1,2)] #get rid of taxonomy ID and level
-brackenT<-brackenT[, grepl("num", colnames(brackenT))] #get rid of fractions
+#counts tables
+brackenT<-read.csv("CountsTables/brackenNormalized.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
 
-colnames(brackenT)<-gsub(".bracken.out_num", "", colnames(brackenT)) #get rid of useless info
-SampleWithDots<-sapply(str_count(colnames(brackenT), "\\."), `[`, 1) == 2
-colnames(brackenT)[SampleWithDots]<-sub("\\.", "", colnames(brackenT)[SampleWithDots]) #get rid of random "."s in sample names
-colnames(brackenT)<-sub("\\.", "-", colnames(brackenT)) #replace . with - to match with metadata
-colnames(brackenT)<-sapply(str_split(colnames(brackenT), "_", n = 2), `[`, 2) #keeping sequencing info for matching
-
-dukeSamples[setdiff(rownames(dukeSamples), colnames(brackenT)), 4] #for missing samples in bracken counts table 
-
-#Normalization
-n<-colSums(brackenT)
-sumx<-sum(brackenT)
-for (i in 1:ncol(brackenT)) {
-        brackenT[,i]<-brackenT[,i]/n[i]
-}
-brackenT<-log10(brackenT*(sumx/ncol(brackenT))+1)
-
-#AMR
-amrT<-read.delim("CountsTables/AMR_counts.tsv", sep = "\t", header = T, row.names = 1)
-amrT<-amrT[, grepl("^D", colnames(amrT))]
-colnames(amrT)<-gsub(".amrfinder.txt", "", colnames(amrT)) #get rid of useless info
-SampleWithDots<-sapply(str_count(colnames(amrT), "\\."), `[`, 1) == 2
-colnames(amrT)[SampleWithDots]<-sub("\\.", "", colnames(amrT)[SampleWithDots]) #get rid of random "."s in sample names
-colnames(amrT)<-sub("\\.", "-", colnames(amrT)) #replace . with - to match with metadata
-colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 2), `[`, 2)
-
-#RGI
-rgiT<-read.delim("CountsTables/RGI_counts.tsv", sep = "\t", header = T, row.names = 1)
-rgiT<-rgiT[, grepl("^D", colnames(rgiT))]
-colnames(rgiT)<-gsub(".rgi.txt", "", colnames(rgiT)) #get rid of useless info
-SampleWithDots<-sapply(str_count(colnames(rgiT), "\\."), `[`, 1) == 2
-colnames(rgiT)[SampleWithDots]<-sub("\\.", "", colnames(rgiT)[SampleWithDots]) #get rid of random "."s in sample names
-colnames(rgiT)<-sub("\\.", "-", colnames(rgiT)) #replace . with - to match with metadata
-colnames(rgiT)<-sapply(str_split(colnames(rgiT), "_", n = 2), `[`, 2)
-
-#vsearch
-vsearchT<-read.delim("CountsTables/vsearch_counts.tsv", sep = "\t", header = T, row.names = 2)
-vsearchT<-vsearchT[, -1] #get rid of index column
-vsearchT<-vsearchT[, grepl("^D", colnames(vsearchT))]
-colnames(vsearchT)<-gsub(".txt", "", colnames(vsearchT)) #get rid of useless info
-
-SampleWithDots<-sapply(str_count(colnames(vsearchT), "\\."), `[`, 1) == 2
-colnames(vsearchT)[SampleWithDots]<-sub("\\.", "", colnames(vsearchT)[SampleWithDots]) #get rid of random "."s in sample names
-colnames(vsearchT)<-sub("\\.", "-", colnames(vsearchT)) #replace . with - to match with metadata
-colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 2), `[`, 2)
+metaBRACKEN<-metaData[colnames(brackenT), , drop = F]
+metaAMR<-metaData[colnames(amrT), , drop = F]
+metaRGI<-metaData[colnames(rgiT), , drop = F]
+metaVSEARCH<-metaData[colnames(vsearchT), , drop = F]
 
 pdf("Plots/TotalCountsByTimePointsBins.pdf", width=12, height=12)
 par(mfrow=c(2, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 
-binCounts<-aggregate(colSums(brackenT), list(dukeSamples[colnames(brackenT), 5]), FUN=sum)
+binCounts<-aggregate(colSums(brackenT), list(metaBRACKEN[colnames(brackenT), 5]), FUN=sum)
 binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
 barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Taxa Counts by Time (Bracken-Species)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
-        xlab = "Time Points (Days)", ylab = "Counts(Normalized)", col = "tan2")
+        xlab = "Time Points (Days)", ylab = "Counts(Log10)", col = "tan2")
 
-binCounts<-aggregate(colSums(amrT), list(dukeSamples[colnames(amrT), 5]), FUN=sum)
+binCounts<-aggregate(colSums(amrT), list(metaAMR[colnames(amrT), 5]), FUN=sum)
 binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
 barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Gene Counts by Time (AMR)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
-        xlab = "Time Points (Days)", ylab = "Counts", col = "coral3")
+        xlab = "Time Points (Days)", ylab = "Counts(Log10)", col = "coral3")
 
-binCounts<-aggregate(colSums(rgiT), list(dukeSamples[colnames(rgiT), 5]), FUN=sum)
+binCounts<-aggregate(colSums(rgiT), list(metaRGI[colnames(rgiT), 5]), FUN=sum)
 binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
 barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Gene Counts by Time (RGI)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
-        xlab = "Time Points (Days)", ylab = "Counts", col = "cornflowerblue")
+        xlab = "Time Points (Days)", ylab = "Counts(Log10)", col = "cornflowerblue")
 
-binCounts<-aggregate(colSums(vsearchT), list(dukeSamples[colnames(vsearchT), 5]), FUN=sum)
+binCounts<-aggregate(colSums(vsearchT), list(metaVSEARCH[colnames(vsearchT), 5]), FUN=sum)
 binCounts<-binCounts[c(7, 6, 2, 3, 4, 5, 1),]
 barplot(binCounts$x, names.arg=c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), 
         main = "Gene Counts by Time (vsearch)", cex.axis = 1.5, cex.lab = 1.5, cex.names = 0.8, cex.main = 1.8,
-        xlab = "Time Points (Days)", ylab = "Counts", col = "olivedrab4")
+        xlab = "Time Points (Days)", ylab = "Counts(Log10)", col = "olivedrab4")
 
 dev.off()
