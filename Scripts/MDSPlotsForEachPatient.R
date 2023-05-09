@@ -1,5 +1,6 @@
 rm(list = ls())
 library("vegan")
+library("RColorBrewer")
 
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
@@ -14,8 +15,8 @@ metaAMR<-metaData[colnames(amrT), , drop = F]
 metaRGI<-metaData[colnames(rgiT), , drop = F]
 metaVSEARCH<-metaData[colnames(vsearchT), , drop = F]
 
-circleCol<-brewer.pal(length(unique(metaBRACKEN$bins)), "Spectral")
-cols<-circleCol[factor(metaBRACKEN$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
+circleCol<-brewer.pal(length(unique(metaBRACKEN$bins)), "Set3")
+cols<-circleCol[factor(metaBRACKEN$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaBRACKEN$ID)
 pdf("Plots/MDSPlotsForEachPatient(bracken).pdf", width=12, height=18)
@@ -32,8 +33,8 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("Bracken-Species", IDtypes[i]),
                        xlim = c(-2.5, 1.5), ylim = c(-2, 2))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaBRACKEN$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -49,13 +50,13 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("Bracken-Species", IDtypes[i]),
                        xlim = c(-2.5, 1.5), ylim = c(-2, 2))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaBRACKEN$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
 
-circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Spectral")
-cols<-circleCol[factor(metaAMR$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
+circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Set3")
+cols<-circleCol[factor(metaAMR$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaAMR$ID)
 pdf("Plots/MDSPlotsForEachPatient(AMR).pdf", width=12, height=18)
@@ -72,8 +73,8 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("AMR", IDtypes[i]),
                        xlim = c(-3, 1.5), ylim = c(-2, 2.5))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaAMR$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -89,13 +90,13 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("AMR", IDtypes[i]),
                        xlim = c(-3, 1.5), ylim = c(-2, 2.5))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaAMR$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
 
-circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Spectral")
-cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
+circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Set3")
+cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaRGI$ID)
 pdf("Plots/MDSPlotsForEachPatient(RGI).pdf", width=12, height=18)
@@ -112,8 +113,8 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("RGI", IDtypes[i]),
                        xlim = c(-2, 2), ylim = c(-2, 2))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaRGI$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:13], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -129,13 +130,13 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("RGI", IDtypes[i]),
                        xlim = c(-2, 2), ylim = c(-2, 2))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaRGI$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
 
-circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Spectral")
-cols<-circleCol[factor(metaVSEARCH$bins, levels = c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"))]
+circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Set3")
+cols<-circleCol[factor(metaVSEARCH$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaVSEARCH$ID)
 pdf("Plots/MDSPlotsForEachPatient(vsearch).pdf", width=12, height=18)
@@ -152,8 +153,8 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("vsearch", IDtypes[i]),
                        xlim = c(-1.5, 2.5), ylim = c(-2, 2))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaVSEARCH$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 }
 dev.off()
 
@@ -169,7 +170,7 @@ for (i in 1:length(IDtypes)) {
                        ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                        main = paste("vsearch", IDtypes[i]),
                        xlim = c(-1.5, 2.5), ylim = c(-2, 2))
-  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-  legend("topright", c("PRE", "D7", "D14", "D21", "D35", "D60", "D100"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+  points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols[which(metaVSEARCH$ID == IDtypes[i])], alpha.f = 0.5))
+  legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
   dev.off()
 }
