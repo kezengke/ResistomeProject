@@ -2,19 +2,21 @@
 rm(list = ls())
 library(stringr)
 library("dplyr")
+
+#proposed bins
+proposedBins<-read.csv("ProposedBin.csv", header = T, row.names = 1)
+rownames(proposedBins)<-sapply(str_split(rownames(proposedBins), "_", n = 2), `[`, 2)
+proposedBins$Proposed.bin<-ifelse(substr(proposedBins$Proposed.bin, 1, 3) == "PRE", 
+                                  proposedBins$Proposed.bin, 
+                                  paste0("D", proposedBins$Proposed.bin))
+
 #metadata
 dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
 rownames(dukeSamples)<-dukeSamples$Seq_sample
 rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`, 2)
 dukeSamples$ID<-paste0("D", gsub("pre","" , sapply(str_split(dukeSamples$sample, "D", n = 3), `[`, 2), ignore.case = T)) #adding sample ID
-dukeSamples$ID<-gsub("npe", "", dukeSamples$ID, ignore.case = T)
-dukeSamples<-dukeSamples %>% mutate(bins = case_when(between(dukeSamples$Timepoint, -100, -2) ~ "PRE",
-                                                     between(dukeSamples$Timepoint, -3, 10) ~ "D7",
-                                                     between(dukeSamples$Timepoint, 11, 17) ~ "D14",
-                                                     between(dukeSamples$Timepoint, 18, 24) ~ "D21",
-                                                     between(dukeSamples$Timepoint, 25, 45) ~ "D35",
-                                                     between(dukeSamples$Timepoint, 46, 75) ~ "D60",
-                                                     between(dukeSamples$Timepoint, 76, 965) ~ "D100"))
+
+dukeSamples$bins<-proposedBins$Proposed.bin
 
 write.csv(dukeSamples, "metaWithBins.csv")
 
