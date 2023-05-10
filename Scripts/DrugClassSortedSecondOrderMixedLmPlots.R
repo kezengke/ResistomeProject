@@ -50,7 +50,7 @@ rownames(newrgiT)<-drugClass
 vsearchMatchT<-geneMatchT %>% filter(row_number() %in% match(rownames(vsearchT), geneMatchT$Vsearch.ARO.Name))
 vsearchMatchT<-vsearchMatchT[, c(7,12)] #keep only the gene name and Corrected AMR classification column
 
-drugClass<-vsearchMatchT$Drug.Class
+drugClass<-unique(vsearchMatchT$Drug.Class)
 newvsearchT<-c()
 for (i in 1:length(drugClass)) {
   genes<-vsearchMatchT %>% filter(vsearchMatchT$Drug.Class == drugClass[i])

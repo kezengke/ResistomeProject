@@ -173,7 +173,7 @@ adjFpvals<-p.adjust(Fpval, method = "BH")
 
 plot_order<-order(pvals)
 for (i in 1:nrow(vsearchT)) {
-  mainText<-paste0(strsplit(rownames(vsearchT)[plot_order[i]], "\\|")[[1]][6],  "\nANOVA P=", signif(pvals[plot_order[i]], 3), ", ", "adj. ANOVA-P=", signif(adjPvals[plot_order[i]], 3), 
+  mainText<-paste0(rownames(vsearchT)[plot_order[i]],  "\nANOVA P=", signif(pvals[plot_order[i]], 3), ", ", "adj. ANOVA-P=", signif(adjPvals[plot_order[i]], 3), 
                    "\nLine vs. Poly F-P=", signif(Fpval[plot_order[i]], 3), ", ", "adj. F-P=", signif(adjFpvals[plot_order[i]], 3))
   myM<-data.frame(unlist(vsearchT[plot_order[i], ]), metaVSEARCH$Timepoint, metaVSEARCH$ID)
   colnames(myM)<-c("counts", "timePoint", "ID")
