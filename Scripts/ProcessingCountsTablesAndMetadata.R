@@ -6,9 +6,9 @@ library("dplyr")
 #proposed bins
 proposedBins<-read.csv("ProposedBin.csv", header = T, row.names = 1)
 rownames(proposedBins)<-sapply(str_split(rownames(proposedBins), "_", n = 2), `[`, 2)
-proposedBins$Proposed.bin<-ifelse(substr(proposedBins$Proposed.bin, 1, 3) == "PRE", 
-                                  proposedBins$Proposed.bin, 
-                                  paste0("D", proposedBins$Proposed.bin))
+# proposedBins$Proposed.bin<-ifelse(substr(proposedBins$Proposed.bin, 1, 3) == "PRE", 
+#                                   proposedBins$Proposed.bin, 
+#                                   paste0("D", proposedBins$Proposed.bin))
 
 #metadata
 dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
@@ -17,6 +17,7 @@ rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`,
 dukeSamples$ID<-paste0("D", gsub("pre","" , sapply(str_split(dukeSamples$sample, "D", n = 3), `[`, 2), ignore.case = T)) #adding sample ID
 
 dukeSamples$bins<-proposedBins$Proposed.bin
+dukeSamples$bins<-ifelse(dukeSamples$bins >= 180 & dukeSamples$bins != "PRE", 180, dukeSamples$bins )
 
 write.csv(dukeSamples, "metaWithBins.csv")
 
