@@ -69,7 +69,7 @@ pdf("Plots/MDSForCorrectedAMRClassification(ColoredByTimePoints).pdf", width=18,
 par(mfrow=c(1,3))
 par(mar=c(5,6,4,1)+.1)
 
-circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Paired")
 cols<-circleCol[factor(metaAMR$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 MDS<-capscale(t(newamrT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
@@ -82,7 +82,7 @@ points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5)
 ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
 legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
-circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Paired")
 cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 MDS<-capscale(t(newrgiT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
@@ -95,7 +95,7 @@ points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5)
 ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
 legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
-circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Paired")
 cols<-circleCol[factor(metaVSEARCH$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 MDS<-capscale(t(newvsearchT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100

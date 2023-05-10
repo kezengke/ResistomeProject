@@ -20,7 +20,7 @@ par(mfrow=c(2,2))
 par(mar=c(5,6,4,1)+.1)
 
 #Bracken
-circleCol<-brewer.pal(length(unique(metaBRACKEN$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaBRACKEN$bins)), "Paired")
 cols<-circleCol[factor(metaBRACKEN$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 MDS<-capscale(t(brackenT)~1,distance = "bray")
@@ -35,7 +35,7 @@ ordiellipse(statusPlot, metaBRACKEN$bins, kind="se", conf=0.95, lwd=4, draw = "l
 legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #AMR
-circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Paired")
 cols<-circleCol[factor(metaAMR$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 MDS<-capscale(t(amrT)~1,distance = "bray")
@@ -50,7 +50,7 @@ ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines
 legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #RGI
-circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Paired")
 cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 MDS<-capscale(t(rgiT)~1,distance = "bray")
@@ -65,7 +65,7 @@ ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines
 legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
 
 #vsearch
-circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Set3") 
+circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Paired") 
 cols<-circleCol[factor(metaVSEARCH$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 MDS<-capscale(t(vsearchT)~1,distance = "bray")
