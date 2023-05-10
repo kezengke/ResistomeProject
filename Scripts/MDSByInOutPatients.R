@@ -32,7 +32,7 @@ statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                      main = paste("Bracken-Species n =", ncol(brackenT), "\nP-value:",pval))
 points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaBRACKEN$ptInOut, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", c("Outpatient", "Inpatient"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
+legend("topright", c("Outpatient", "Inpatient"), col = circleCol[1:2], cex = 1, pch = 16, bty = "n")
 
 #AMR
 circleCol<-c("cornflowerblue", "darkorange")
@@ -47,7 +47,7 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("AMR n =", ncol(amrT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaAMR$ptInOut, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topleft", c("Outpatient", "Inpatient"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
+legend("topright", c("Outpatient", "Inpatient"), col = circleCol[1:2], cex = 1, pch = 16, bty = "n")
 
 #RGI
 circleCol<-c("cornflowerblue", "darkorange")
@@ -62,7 +62,7 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("RGI n =", ncol(rgiT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaRGI$ptInOut, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", c("Outpatient", "Inpatient"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
+legend("topright", c("Outpatient", "Inpatient"), col = circleCol[1:2], cex = 1, pch = 16, bty = "n")
 
 #vsearch
 circleCol<-c("cornflowerblue", "darkorange")
@@ -77,6 +77,6 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("vsearch n =", ncol(vsearchT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaVSEARCH$ptInOut, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", c("Outpatient", "Inpatient"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
+legend("topright", c("Outpatient", "Inpatient"), col = circleCol[1:2], cex = 1, pch = 16, bty = "n")
 
 dev.off()
