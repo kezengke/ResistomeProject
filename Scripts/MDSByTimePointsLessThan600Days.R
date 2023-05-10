@@ -47,7 +47,7 @@ statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                      main = paste("Bracken-Species n =", ncol(brackenT), "\nP-value:",pval))
 points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaBRACKEN$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 
 #AMR
 circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Paired")
@@ -62,7 +62,7 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("AMR n =", ncol(amrT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 
 #RGI
 circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Paired")
@@ -77,7 +77,7 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("RGI n =", ncol(rgiT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 
 #vsearch
 circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Paired") 
@@ -92,6 +92,6 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("vsearch n =", ncol(vsearchT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaVSEARCH$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 
 dev.off()

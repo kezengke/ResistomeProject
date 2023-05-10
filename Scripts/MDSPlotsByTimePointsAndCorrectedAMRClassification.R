@@ -80,7 +80,7 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("AMR(CorrectedAMRClassification) n =", ncol(newamrT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 
 circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Paired")
 cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
@@ -93,7 +93,7 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("RGI(CorrectedAMRClassification) n =", ncol(newrgiT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 
 circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Paired")
 cols<-circleCol[factor(metaVSEARCH$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
@@ -106,6 +106,6 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      main=paste("vsearch(CorrectedAMRClassification) n =", ncol(newvsearchT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
 ordiellipse(statusPlot, metaVSEARCH$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
-legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:11], cex = 1, pch = 16, bty = "n")
+legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"), col = circleCol[1:12], cex = 1, pch = 16, bty = "n")
 
 dev.off()
