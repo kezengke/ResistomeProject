@@ -40,7 +40,7 @@ cols<-circleCol[factor(metaBRACKEN$bins, levels = c("PRE", "D0", "D7", "D14", "D
 
 MDS<-capscale(t(brackenT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis2(t(brackenT)~metaBRACKEN$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(brackenT)~metaBRACKEN$bins, method="bray")$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                      xlab = paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
@@ -55,7 +55,7 @@ cols<-circleCol[factor(metaAMR$bins, levels = c("PRE", "D0", "D7", "D14", "D21",
 
 MDS<-capscale(t(amrT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis2(t(amrT)~metaAMR$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(amrT)~metaAMR$bins, method="bray")$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
@@ -70,7 +70,7 @@ cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D0", "D7", "D14", "D21",
 
 MDS<-capscale(t(rgiT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis2(t(rgiT)~metaRGI$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(rgiT)~metaRGI$bins, method="bray")$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
@@ -85,7 +85,7 @@ cols<-circleCol[factor(metaVSEARCH$bins, levels = c("PRE", "D0", "D7", "D14", "D
 
 MDS<-capscale(t(vsearchT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
-pval<-adonis2(t(vsearchT)~metaVSEARCH$bins, method="bray")$aov.tab$`Pr(>F)`[1]
+pval<-adonis2(t(vsearchT)~metaVSEARCH$bins, method="bray")$`Pr(>F)`[1]
 statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      xlab=paste("MDS1  ", format(percentVariance[1], digits = 4), "%", sep = ""),
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
