@@ -15,7 +15,7 @@ metaAMR<-metaData[colnames(amrT), , drop = F]
 metaRGI<-metaData[colnames(rgiT), , drop = F]
 metaVSEARCH<-metaData[colnames(vsearchT), , drop = F]
 
-circleCol<-brewer.pal(length(unique(metaBRACKEN$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaBRACKEN$bins)), "Paired")
 cols<-circleCol[factor(metaBRACKEN$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaBRACKEN$ID)
@@ -55,7 +55,7 @@ for (i in 1:length(IDtypes)) {
   dev.off()
 }
 
-circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaAMR$bins)), "Paired")
 cols<-circleCol[factor(metaAMR$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaAMR$ID)
@@ -95,7 +95,7 @@ for (i in 1:length(IDtypes)) {
   dev.off()
 }
 
-circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaRGI$bins)), "Paired")
 cols<-circleCol[factor(metaRGI$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaRGI$ID)
@@ -135,7 +135,7 @@ for (i in 1:length(IDtypes)) {
   dev.off()
 }
 
-circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Set3")
+circleCol<-brewer.pal(length(unique(metaVSEARCH$bins)), "Paired")
 cols<-circleCol[factor(metaVSEARCH$bins, levels = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180", "D365", "D730"))]
 
 IDtypes<-unique(metaVSEARCH$ID)
