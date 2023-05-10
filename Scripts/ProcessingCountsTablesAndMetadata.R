@@ -13,6 +13,9 @@ proposedBins$Proposed.bin<-ifelse(substr(proposedBins$Proposed.bin, 1, 3) == "PR
                                   proposedBins$Proposed.bin,
                                   paste0("D", proposedBins$Proposed.bin))
 
+#in and out patient
+ptInOut<-read.csv("patientInOut.csv", header = T, row.names = 1)
+
 #metadata
 dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
 rownames(dukeSamples)<-dukeSamples$Seq_sample
@@ -20,6 +23,8 @@ rownames(dukeSamples)<-sapply(str_split(rownames(dukeSamples), "_", n = 2), `[`,
 dukeSamples$ID<-paste0("D", gsub("pre","" , sapply(str_split(dukeSamples$sample, "D", n = 3), `[`, 2), ignore.case = T)) #adding sample ID
 
 dukeSamples$bins<-proposedBins$Proposed.bin
+
+dukeSamples$ptInOut<-ptInOut[as.character(dukeSamples$PID),]
 
 write.csv(dukeSamples, "metaWithBins.csv")
 
