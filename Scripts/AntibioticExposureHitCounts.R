@@ -1,101 +1,76 @@
 rm(list = ls())
-library("dplyr")
-library(stringr)
 
-A_expo<-read.csv("AntibioticsExposure.csv", check.names = F, header = T)
+bracken7<-read.csv("ABexposure/bracken7.csv", header = T, row.names = 1)
+bracken10<-read.csv("ABexposure/bracken10.csv", header = T, row.names = 1)
+bracken30<-read.csv("ABexposure/bracken30.csv", header = T, row.names = 1)
+bracken60<-read.csv("ABexposure/bracken60.csv", header = T, row.names = 1)
+bracken90<-read.csv("ABexposure/bracken90.csv", header = T, row.names = 1)
 
-#gene category match table
-geneMatchT<-read.csv("MASTER_AMRlist_2023_03.csv", sep = ",", header = T)
+amr7<-read.csv("ABexposure/amr7.csv", header = T, row.names = 1)
+amr10<-read.csv("ABexposure/amr10.csv", header = T, row.names = 1)
+amr30<-read.csv("ABexposure/amr30.csv", header = T, row.names = 1)
+amr60<-read.csv("ABexposure/amr60.csv", header = T, row.names = 1)
+amr90<-read.csv("ABexposure/amr90.csv", header = T, row.names = 1)
 
-#metadata
-meta7days<-read.csv("ABexposure/ABmeta7days.csv", header = T, row.names = 1, check.names = F)
-meta10days<-read.csv("ABexposure/ABmeta10days.csv", header = T, row.names = 1, check.names = F)
-meta30days<-read.csv("ABexposure/ABmeta30days.csv", header = T, row.names = 1, check.names = F)
-meta60days<-read.csv("ABexposure/ABmeta60days.csv", header = T, row.names = 1, check.names = F)
-meta90days<-read.csv("ABexposure/ABmeta90days.csv", header = T, row.names = 1, check.names = F)
+rgi7<-read.csv("ABexposure/rgi7.csv", header = T, row.names = 1)
+rgi10<-read.csv("ABexposure/rgi10.csv", header = T, row.names = 1)
+rgi30<-read.csv("ABexposure/rgi30.csv", header = T, row.names = 1)
+rgi60<-read.csv("ABexposure/rgi60.csv", header = T, row.names = 1)
+rgi90<-read.csv("ABexposure/rgi90.csv", header = T, row.names = 1)
 
-#bracken
-brackenT<-read.csv("CountsTables/brackenNormalized.csv", header = T, row.names = 1, check.names = F)
-amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, check.names = F)
-rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
-vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
-#filter
-brackenT<-brackenT[apply(brackenT == 0, 1, sum) <= (ncol(brackenT)*0.8), ]
-amrT<-amrT[apply(amrT == 0, 1, sum) <= (ncol(amrT)*0.8), ]
-rgiT<-rgiT[apply(rgiT == 0, 1, sum) <= (ncol(rgiT)*0.8), ]
-vsearchT<-vsearchT[apply(vsearchT == 0, 1, sum) <= (ncol(vsearchT)*0.8), ]
+vsearch7<-read.csv("ABexposure/vsearch7.csv", header = T, row.names = 1)
+vsearch10<-read.csv("ABexposure/vsearch10.csv", header = T, row.names = 1)
+vsearch30<-read.csv("ABexposure/vsearch30.csv", header = T, row.names = 1)
+vsearch60<-read.csv("ABexposure/vsearch60.csv", header = T, row.names = 1)
+vsearch90<-read.csv("ABexposure/vsearch90.csv", header = T, row.names = 1)
 
-#meta for each table
-metaBRACKEN7<-meta7days[colnames(brackenT), 8:ncol(meta7days)]
-metaBRACKEN10<-meta10days[colnames(brackenT), 8:ncol(meta10days)]
-metaBRACKEN30<-meta30days[colnames(brackenT), 8:ncol(meta30days)]
-metaBRACKEN60<-meta60days[colnames(brackenT), 8:ncol(meta60days)]
-metaBRACKEN90<-meta90days[colnames(brackenT), 8:ncol(meta90days)]
-
-metaAMR7<-meta7days[colnames(amrT), 8:ncol(meta7days)]
-metaAMR10<-meta10days[colnames(amrT), 8:ncol(meta10days)]
-metaAMR30<-meta30days[colnames(amrT), 8:ncol(meta30days)]
-metaAMR60<-meta60days[colnames(amrT), 8:ncol(meta60days)]
-metaAMR90<-meta90days[colnames(amrT), 8:ncol(meta90days)]
-
-metaRGI7<-meta7days[colnames(rgiT), 8:ncol(meta7days)]
-metaRGI10<-meta10days[colnames(rgiT), 8:ncol(meta10days)]
-metaRGI30<-meta30days[colnames(rgiT), 8:ncol(meta30days)]
-metaRGI60<-meta60days[colnames(rgiT), 8:ncol(meta60days)]
-metaRGI90<-meta90days[colnames(rgiT), 8:ncol(meta90days)]
-
-metaVSEARCH7<-meta7days[colnames(vsearchT), 8:ncol(meta7days)]
-metaVSEARCH10<-meta10days[colnames(vsearchT), 8:ncol(meta10days)]
-metaVSEARCH30<-meta30days[colnames(vsearchT), 8:ncol(meta30days)]
-metaVSEARCH60<-meta60days[colnames(vsearchT), 8:ncol(meta60days)]
-metaVSEARCH90<-meta90days[colnames(vsearchT), 8:ncol(meta90days)]
-
-hitsCalc<-function(meta, countsT) {
-  hits<-vector()
-  for (i in 1:ncol(meta)) {
-    testingMeta<-meta[, i, drop = F]
-    pval<-vector()
-    for (j in 1:nrow(countsT)) {
-      if (colSums(testingMeta == "Yes") < 2) {
-        pval[j]<-NA
-      }
-      else
-        pval[j]<-t.test(unlist(countsT[j, ])~factor(testingMeta[,1]))$p.value
-    }
-    hits[i]<-sum(pval<0.05)
-  }
-  return(hits)
-}
-
-bracken7<-hitsCalc(metaBRACKEN7, brackenT)
-bracken10<-hitsCalc(metaBRACKEN10, brackenT)
-bracken30<-hitsCalc(metaBRACKEN30, brackenT)
-bracken60<-hitsCalc(metaBRACKEN60, brackenT)
-bracken90<-hitsCalc(metaBRACKEN90, brackenT)
-
-amr7<-hitsCalc(metaAMR7, amrT)
-amr10<-hitsCalc(metaAMR10, amrT)
-amr30<-hitsCalc(metaAMR30, amrT)
-amr60<-hitsCalc(metaAMR60, amrT)
-amr90<-hitsCalc(metaAMR90, amrT)
-
-rgi7<-hitsCalc(metaRGI7, rgiT)
-rgi10<-hitsCalc(metaRGI10, rgiT)
-rgi30<-hitsCalc(metaRGI30, rgiT)
-rgi60<-hitsCalc(metaRGI60, rgiT)
-rgi90<-hitsCalc(metaRGI90, rgiT)
-
-vsearch7<-hitsCalc(metaVSEARCH7, vsearchT)
-vsearch10<-hitsCalc(metaVSEARCH10, vsearchT)
-vsearch30<-hitsCalc(metaVSEARCH30, vsearchT)
-vsearch60<-hitsCalc(metaVSEARCH60, vsearchT)
-vsearch90<-hitsCalc(metaVSEARCH90, vsearchT)
-
-HitsT<-rbind(bracken7, bracken10, bracken30, bracken60, bracken90, 
-             amr7, amr10, amr30, amr60, amr90, 
-             rgi7, rgi10, rgi30, rgi60, rgi90,
-             vsearch7, vsearch10, vsearch30, vsearch60, vsearch90)
-
-colnames(HitsT)<-colnames(metaBRACKEN7)
+HitsT<-rbind(colSums(bracken7<0.05), colSums(bracken10<0.05), colSums(bracken30<0.05), colSums(bracken60<0.05), colSums(bracken90<0.05),
+             colSums(amr7<0.05), colSums(amr10<0.05), colSums(amr30<0.05), colSums(amr60<0.05), colSums(amr90<0.05),
+             colSums(rgi7<0.05), colSums(rgi10<0.05), colSums(rgi30<0.05), colSums(rgi60<0.05), colSums(rgi90<0.05),
+             colSums(vsearch7<0.05), colSums(vsearch10<0.05), colSums(vsearch30<0.05), colSums(vsearch60<0.05), colSums(vsearch90<0.05))
+colnames(HitsT)<-colnames(bracken7)
+rownames(HitsT)<-c("brackenD7", "brackenD10", "brackenD30", "brackenD60", "brackenD90",
+                   "amrD7", "amrD10", "amrD30", "amrD60", "amrD90",
+                   "rgiD7", "rgiD10", "rgiD30", "rgiD60", "rgiD90",
+                   "vsearchD7", "vsearchD10", "vsearchD30", "vsearchD60", "vsearchD90")
 
 write.csv(HitsT, "AntibioticExposureHitCounts.csv")
+
+#adjusted
+rm(list = ls())
+
+bracken7<-read.csv("ABexposure/bracken7adj.csv", header = T, row.names = 1)
+bracken10<-read.csv("ABexposure/bracken10adj.csv", header = T, row.names = 1)
+bracken30<-read.csv("ABexposure/bracken30adj.csv", header = T, row.names = 1)
+bracken60<-read.csv("ABexposure/bracken60adj.csv", header = T, row.names = 1)
+bracken90<-read.csv("ABexposure/bracken90adj.csv", header = T, row.names = 1)
+
+amr7<-read.csv("ABexposure/amr7adj.csv", header = T, row.names = 1)
+amr10<-read.csv("ABexposure/amr10adj.csv", header = T, row.names = 1)
+amr30<-read.csv("ABexposure/amr30adj.csv", header = T, row.names = 1)
+amr60<-read.csv("ABexposure/amr60adj.csv", header = T, row.names = 1)
+amr90<-read.csv("ABexposure/amr90adj.csv", header = T, row.names = 1)
+
+rgi7<-read.csv("ABexposure/rgi7adj.csv", header = T, row.names = 1)
+rgi10<-read.csv("ABexposure/rgi10adj.csv", header = T, row.names = 1)
+rgi30<-read.csv("ABexposure/rgi30adj.csv", header = T, row.names = 1)
+rgi60<-read.csv("ABexposure/rgi60adj.csv", header = T, row.names = 1)
+rgi90<-read.csv("ABexposure/rgi90adj.csv", header = T, row.names = 1)
+
+vsearch7<-read.csv("ABexposure/vsearch7adj.csv", header = T, row.names = 1)
+vsearch10<-read.csv("ABexposure/vsearch10adj.csv", header = T, row.names = 1)
+vsearch30<-read.csv("ABexposure/vsearch30adj.csv", header = T, row.names = 1)
+vsearch60<-read.csv("ABexposure/vsearch60adj.csv", header = T, row.names = 1)
+vsearch90<-read.csv("ABexposure/vsearch90adj.csv", header = T, row.names = 1)
+
+HitsT<-rbind(colSums(bracken7<0.05), colSums(bracken10<0.05), colSums(bracken30<0.05), colSums(bracken60<0.05), colSums(bracken90<0.05),
+             colSums(amr7<0.05), colSums(amr10<0.05), colSums(amr30<0.05), colSums(amr60<0.05), colSums(amr90<0.05),
+             colSums(rgi7<0.05), colSums(rgi10<0.05), colSums(rgi30<0.05), colSums(rgi60<0.05), colSums(rgi90<0.05),
+             colSums(vsearch7<0.05), colSums(vsearch10<0.05), colSums(vsearch30<0.05), colSums(vsearch60<0.05), colSums(vsearch90<0.05))
+colnames(HitsT)<-colnames(bracken7)
+rownames(HitsT)<-c("brackenD7adj", "brackenD10adj", "brackenD30adj", "brackenD60adj", "brackenD90adj",
+                   "amrD7adj", "amrD10adj", "amrD30adj", "amrD60adj", "amrD90adj",
+                   "rgiD7adj", "rgiD10adj", "rgiD30adj", "rgiD60adj", "rgiD90adj",
+                   "vsearchD7adj", "vsearchD10adj", "vsearchD30adj", "vsearchD60adj", "vsearchD90adj")
+
+write.csv(HitsT, "AntibioticExposureHitCountsAdj.csv")
