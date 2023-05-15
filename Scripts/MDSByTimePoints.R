@@ -31,7 +31,11 @@ statusPlot<-ordiplot(MDS,choices = c(1,2),type="none",cex.lab = 1,
                      ylab = paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main = paste("Bracken-Species n =", ncol(brackenT), "\nP-value:",pval))
 points(statusPlot,"sites", pch = 19, cex = 2.5, col = adjustcolor(cols, alpha.f = 0.5))
-ordiellipse(statusPlot, metaBRACKEN$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
+for (i in 1:length(unique(metaBRACKEN$bins))) {
+  ordiellipse(statusPlot, metaBRACKEN$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol[i], 
+              show.groups = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180")[i],
+              font=2,cex=1) 
+}
 legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
 
 #AMR
@@ -46,7 +50,11 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main=paste("AMR n =", ncol(amrT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
-ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
+for (i in 1:length(unique(metaAMR$bins))) {
+  ordiellipse(statusPlot, metaAMR$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol[i], 
+              show.groups = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180")[i],
+              font=2,cex=1) 
+}
 legend("topleft", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
 
 #RGI
@@ -61,7 +69,11 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main=paste("RGI n =", ncol(rgiT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
-ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
+for (i in 1:length(unique(metaRGI$bins))) {
+  ordiellipse(statusPlot, metaRGI$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol[i], 
+              show.groups = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180")[i],
+              font=2,cex=1) 
+}
 legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
 
 #vsearch
@@ -76,7 +88,11 @@ statusPlot<-ordiplot(MDS,choices=c(1,2),type="none",cex.lab=1,
                      ylab=paste("MDS2  ", format(percentVariance[2], digits = 4), "%", sep = ""),
                      main=paste("vsearch n =", ncol(vsearchT), "\nP-value:",pval))
 points(statusPlot,"sites", pch=19, cex=2.5, col=adjustcolor(cols, alpha.f = 0.5))
-ordiellipse(statusPlot, metaVSEARCH$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol) 
+for (i in 1:length(unique(metaVSEARCH$bins))) {
+  ordiellipse(statusPlot, metaVSEARCH$bins, kind="se", conf=0.95, lwd=4, draw = "lines", col=circleCol[i], 
+              show.groups = c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180")[i],
+              font=2,cex=1) 
+}
 legend("topright", c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180"), col = circleCol[1:10], cex = 1, pch = 16, bty = "n")
 
 dev.off()
