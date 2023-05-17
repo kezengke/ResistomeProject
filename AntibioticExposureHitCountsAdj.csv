@@ -1,9 +1,9 @@
 "","Ciprofloxacin","Augmentin","Metronidazole","Ceftriaxone","Vancomycin","Cefepime","Azithromycin","Trimethoprim.Sulfamethoxazole","Penicillin","Levofloxacin","trimethoprim.sulfamethoxazole","Dapsone","Amoxicillin","Trimethoprim.sulfamethoxazole","Cefdinir","Metronidzole","Piperacillin.tazobactam","Trimethprim.sulfamethoxazole","Ceftazidime","TMP.SMX","Cefuroxime","Cephalexin","Pentamidine","Pencillin","Doxycycline","Meropenem","Daptomycin","Sulfamethoxazole","Cefazolin","Aztreonam"
-"brackenD7adj",165,3671,4546,629,4775,4968,NA,2206,1646,143,NA,15,1752,NA,NA,NA,745,NA,3110,37,1807,1939,NA,NA,643,1778,1494,2,NA,NA
-"brackenD10adj",663,3671,2190,519,4943,4859,2009,2206,1646,27,NA,15,1752,NA,NA,NA,1709,NA,3110,49,1807,1939,NA,NA,636,1778,2689,5,NA,NA
-"brackenD30adj",3337,1182,248,294,5058,4921,1866,2206,1646,38,3784,3,204,NA,NA,NA,2272,1917,3110,512,1807,563,855,NA,636,666,1254,3,1566,NA
-"brackenD60adj",1874,466,239,169,4700,4495,841,2206,1646,555,2098,4,158,NA,NA,NA,2207,1917,1149,562,1632,491,855,NA,260,408,1594,7,410,1415
-"brackenD90adj",1277,466,200,255,4010,3632,599,2206,1646,1914,2098,27,239,NA,NA,NA,2203,809,307,313,1632,145,855,NA,110,412,645,76,410,2288
+"brackenD7adj",11,54,72,0,260,277,NA,77,64,0,NA,1,21,NA,NA,NA,16,NA,32,0,30,18,NA,NA,0,6,3,0,NA,NA
+"brackenD10adj",29,54,0,2,267,273,17,77,64,0,NA,1,21,NA,NA,NA,165,NA,32,0,30,18,NA,NA,0,6,118,0,NA,NA
+"brackenD30adj",176,2,0,0,277,278,6,77,64,0,109,0,0,NA,NA,NA,204,13,32,7,30,1,0,NA,0,1,5,1,5,NA
+"brackenD60adj",83,0,60,37,288,265,5,77,64,27,20,1,0,NA,NA,NA,210,13,11,37,52,0,0,NA,1,1,6,0,0,57
+"brackenD90adj",33,0,64,45,289,251,3,77,64,200,20,0,0,NA,NA,NA,224,5,8,35,52,0,0,NA,1,5,14,17,0,79
 "amrD7adj",0,10,1,2,3,5,NA,10,2,0,NA,1,2,NA,NA,NA,1,NA,12,1,2,4,NA,NA,0,1,0,0,NA,NA
 "amrD10adj",1,10,1,1,2,4,0,10,2,0,NA,1,2,NA,NA,NA,3,NA,12,1,2,4,NA,NA,0,1,3,0,NA,NA
 "amrD30adj",1,7,1,1,6,7,0,10,2,0,8,0,1,NA,NA,NA,4,12,12,0,2,1,0,NA,0,1,0,3,1,NA
