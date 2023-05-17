@@ -1,5 +1,5 @@
-pdf("Plots/MeanAbundance(Log).pdf", width=21, height=14)
-par(mfrow=c(2,3))
+pdf("Plots/MeanAbundance(Log).pdf", width=28, height=7)
+par(mfrow=c(1,4))
 #Bracken
 rm(list = ls())
 myT<-read.csv("CountsTables/brackenNormalized.csv", row.name = 1, header = T, check.names = F)
