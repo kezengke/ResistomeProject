@@ -12,12 +12,6 @@ amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, chec
 rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
 
-#filtering
-brackenT<-brackenT[apply(brackenT == 0, 1, sum) <= (ncol(brackenT)*0.8), ]
-amrT<-amrT[apply(amrT == 0, 1, sum) <= (ncol(amrT)*0.8), ]
-rgiT<-rgiT[apply(rgiT == 0, 1, sum) <= (ncol(rgiT)*0.8), ]
-vsearchT<-vsearchT[apply(vsearchT == 0, 1, sum) <= (ncol(vsearchT)*0.8), ]
-
 #exclude days after 600 days
 brackenT<-brackenT[, -which(colnames(brackenT) %in% c(rownames(metaData)[metaData$Timepoint>600])) ]
 amrT<-amrT[, -which(colnames(amrT) %in% c(rownames(metaData)[metaData$Timepoint>600])) ]
