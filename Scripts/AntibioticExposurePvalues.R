@@ -14,16 +14,11 @@ meta30days<-read.csv("ABexposure/ABmeta30days.csv", header = T, row.names = 1, c
 meta60days<-read.csv("ABexposure/ABmeta60days.csv", header = T, row.names = 1, check.names = F)
 meta90days<-read.csv("ABexposure/ABmeta90days.csv", header = T, row.names = 1, check.names = F)
 
-#bracken
-brackenT<-read.csv("CountsTables/brackenNormalized.csv", header = T, row.names = 1, check.names = F)
-amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, check.names = F)
-rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
-vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
-#filter
-brackenT<-brackenT[apply(brackenT == 0, 1, sum) <= (ncol(brackenT)*0.8), ]
-amrT<-amrT[apply(amrT == 0, 1, sum) <= (ncol(amrT)*0.8), ]
-rgiT<-rgiT[apply(rgiT == 0, 1, sum) <= (ncol(rgiT)*0.8), ]
-vsearchT<-vsearchT[apply(vsearchT == 0, 1, sum) <= (ncol(vsearchT)*0.8), ]
+#counts tables
+brackenT<-read.csv("CountsTables/brackenFiltered.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
 #meta for each table
 metaBRACKEN7<-meta7days[colnames(brackenT), 8:ncol(meta7days)]
