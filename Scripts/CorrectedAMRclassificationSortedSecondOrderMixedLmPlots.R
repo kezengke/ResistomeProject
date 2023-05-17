@@ -8,9 +8,9 @@ geneMatchT<-read.csv("MASTER_AMRlist_2023_03.csv", sep = ",", header = T)
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
 #gene counts tables
-amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, check.names = F)
-rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
-vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
 #AMR
 #keep only the rows present in amr counts table in master list
@@ -59,11 +59,6 @@ for (i in 1:length(amrTypes)) {
   newvsearchT<-rbind(newvsearchT, sumRow)
 }
 rownames(newvsearchT)<-amrTypes
-
-#filtering
-amrT<-amrT[apply(amrT == 0, 1, sum) <= (ncol(amrT)*0.8), ]
-rgiT<-rgiT[apply(rgiT == 0, 1, sum) <= (ncol(rgiT)*0.8), ]
-vsearchT<-vsearchT[apply(vsearchT == 0, 1, sum) <= (ncol(vsearchT)*0.8), ]
 
 metaAMR<-metaData[colnames(newamrT), , drop = F]
 metaRGI<-metaData[colnames(newrgiT), , drop = F]
