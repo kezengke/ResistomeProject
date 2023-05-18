@@ -101,7 +101,6 @@ dev.off()
 pdf("Plots/SortedSecondOrderMixedLm(RGI).pdf", width=12, height=18)
 par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
-rgiT<-rgiT[apply(rgiT == 0, 1, sum) <= (ncol(rgiT)*0.8), ]
 pvals<-vector()
 Fpval<-vector()
 for (i in 1:nrow(rgiT)) {
