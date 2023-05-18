@@ -21,9 +21,9 @@ par(mar=c(5, 6, 4, 1)+.1)
 
 modelPvals<-vector()
 for (i in 1:nrow(brackenT)) {
-  myM<-data.frame(unlist(brackenT[i, ]), metaBRACKEN$Timepoint, metaBRACKEN$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(brackenT[i, ]), metaBRACKEN$Timepoint, metaBRACKEN$ID, metaBRACKEN$ptInOut)
+  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
+  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }
@@ -35,9 +35,9 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 
 modelPvals<-vector()
 for (i in 1:nrow(amrT)) {
-  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ID, metaAMR$ptInOut)
+  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
+  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }
@@ -49,28 +49,28 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 
 modelPvals<-vector()
 for (i in 1:nrow(rgiT)) {
-  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ID, metaRGI$ptInOut)
+  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
+  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "cornflowerblue",
-     main = "RGI Mixed LM 2nd Order ANOVA P-vals", 
+     main = "RGI Mixed LM ANOVA P-vals", 
      xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 
 modelPvals<-vector()
 for (i in 1:nrow(vsearchT)) {
-  myM<-data.frame(unlist(vsearchT[i, ]), metaVSEARCH$Timepoint, metaVSEARCH$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(vsearchT[i, ]), metaVSEARCH$Timepoint, metaVSEARCH$ID, metaVSEARCH$ptInOut)
+  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
+  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }
 hist(modelPvals, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "olivedrab4",
-     main = "vsearch Mixed LM 2nd Order ANOVA P-vals", 
+     main = "vsearch Mixed LM ANOVA P-vals", 
      xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
