@@ -20,9 +20,9 @@ par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 pvals<-vector()
 for (i in 1:nrow(brackenT)) {
-  myM<-data.frame(unlist(brackenT[i, ]), metaBRACKEN$Timepoint, metaBRACKEN$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  lineM<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(brackenT[i, ]), metaBRACKEN$Timepoint, metaBRACKEN$ptInOut, metaBRACKEN$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  lineM<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   pvals[i]<-anova(lineM)[2,4]
 }
 adjPvals<-p.adjust(pvals, method = "BH")
@@ -31,9 +31,9 @@ plot_order<-order(pvals)
 for (i in 1:nrow(brackenT)) {
   mainText<-paste0(rownames(brackenT)[plot_order[i]], 
                    "\nANOVA P=", signif(pvals[plot_order[i]], 3), ", ", "adj. ANOVA-P=", signif(adjPvals[plot_order[i]], 3))
-  myM<-data.frame(unlist(brackenT[plot_order[i], ]), metaBRACKEN$Timepoint, metaBRACKEN$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(brackenT[plot_order[i], ]), metaBRACKEN$Timepoint, metaBRACKEN$ptInOut, metaBRACKEN$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   plot(metaBRACKEN$Timepoint, unlist(brackenT[plot_order[i],]), 
        pch = 19, col = "tan2", 
        main = mainText,
@@ -48,9 +48,9 @@ par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 pvals<-vector()
 for (i in 1:nrow(amrT)) {
-  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  lineM<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ptInOut, metaAMR$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  lineM<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   pvals[i]<-anova(lineM)[2,4]
 }
 adjPvals<-p.adjust(pvals, method = "BH")
@@ -58,9 +58,9 @@ adjPvals<-p.adjust(pvals, method = "BH")
 plot_order<-order(pvals)
 for (i in 1:nrow(amrT)) {
   mainText<-paste0(rownames(amrT)[plot_order[i]], "\nANOVA P=", signif(pvals[plot_order[i]], 3), ", ", "adj. ANOVA-P=", signif(adjPvals[plot_order[i]], 3))
-  myM<-data.frame(unlist(amrT[plot_order[i], ]), metaAMR$Timepoint, metaAMR$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(amrT[plot_order[i], ]), metaAMR$Timepoint, metaAMR$ptInOut, metaAMR$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   plot(metaAMR$Timepoint, unlist(amrT[plot_order[i],]), 
        pch = 19, col = "coral3", 
        main = mainText,
@@ -76,9 +76,9 @@ par(mar=c(5, 6, 4, 1)+.1)
 pvals<-vector()
 Fpval<-vector()
 for (i in 1:nrow(rgiT)) {
-  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  lineM<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ptInOut, metaRGI$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  lineM<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   pvals[i]<-anova(lineM)[2,4]
 }
 adjPvals<-p.adjust(pvals, method = "BH")
@@ -86,9 +86,9 @@ adjPvals<-p.adjust(pvals, method = "BH")
 plot_order<-order(pvals)
 for (i in 1:nrow(rgiT)) {
   mainText<-paste0(rownames(rgiT)[plot_order[i]], "\nANOVA P=", signif(pvals[plot_order[i]], 3), ", ", "adj. ANOVA-P=", signif(adjPvals[plot_order[i]], 3))
-  myM<-data.frame(unlist(rgiT[plot_order[i], ]), metaRGI$Timepoint, metaRGI$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(rgiT[plot_order[i], ]), metaRGI$Timepoint, metaRGI$ptInOut, metaRGI$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   plot(metaRGI$Timepoint, unlist(rgiT[plot_order[i],]), 
        pch = 19, col = "cornflowerblue", 
        main = mainText,
@@ -103,9 +103,9 @@ par(mfrow=c(3, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 pvals<-vector()
 for (i in 1:nrow(vsearchT)) {
-  myM<-data.frame(unlist(vsearchT[i, ]), metaVSEARCH$Timepoint, metaVSEARCH$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  lineM<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(vsearchT[i, ]), metaVSEARCH$Timepoint, metaVSEARCH$ptInOut, metaVSEARCH$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  lineM<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   pvals[i]<-anova(lineM)[2,4]
 }
 adjPvals<-p.adjust(pvals, method = "BH")
@@ -113,9 +113,9 @@ adjPvals<-p.adjust(pvals, method = "BH")
 plot_order<-order(pvals)
 for (i in 1:nrow(vsearchT)) {
   mainText<-paste0(rownames(vsearchT)[plot_order[i]],  "\nANOVA P=", signif(pvals[plot_order[i]], 3), ", ", "adj. ANOVA-P=", signif(adjPvals[plot_order[i]], 3))
-  myM<-data.frame(unlist(vsearchT[plot_order[i], ]), metaVSEARCH$Timepoint, metaVSEARCH$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "InOut")
-  Model<-lme(counts ~ timePoint, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(vsearchT[plot_order[i], ]), metaVSEARCH$Timepoint, metaVSEARCH$ptInOut, metaVSEARCH$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   plot(metaVSEARCH$Timepoint, unlist(vsearchT[plot_order[i],]), 
        pch = 19, col = "olivedrab4", 
        main = mainText,

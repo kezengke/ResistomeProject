@@ -4,7 +4,7 @@ library(stringr)
 
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
-amrT<-read.csv("CountsTables/amrProcessed.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.names = F)
 metaAMR<-metaData[colnames(amrT), , drop = F]
 ID<-unique(metaAMR$PID)
 
@@ -18,14 +18,14 @@ for (i in 1:length(ID)) {
   totalCounts<-colSums(counts)
   
   plot(meta$Timepoint, totalCounts, col = "coral3", pch = 19, 
-       xlab = "Days", ylab = "AMR Counts",
+       xlab = "Days", ylab = "AMR Log10 Counts",
        main = paste0("D", ID[i]))
   
 }
 dev.off()
 
 #RGI
-rgiT<-read.csv("CountsTables/rgiProcessed.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 metaRGI<-metaData[colnames(rgiT), , drop = F]
 ID<-unique(metaRGI$PID)
 
@@ -38,14 +38,14 @@ for (i in 1:length(ID)) {
   totalCounts<-colSums(counts)
   
   plot(meta$Timepoint, totalCounts, col = "cornflowerblue", pch = 19, 
-       xlab = "Days", ylab = "RGI Counts",
+       xlab = "Days", ylab = "RGI Log10 Counts",
        main = paste0("D", ID[i]))
   
 }
 dev.off()
 
 #vsearch
-vsearchT<-read.csv("CountsTables/vsearchProcessed.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 metaVSEARCH<-metaData[colnames(vsearchT), , drop = F]
 ID<-unique(metaVSEARCH$PID)
 
@@ -58,7 +58,7 @@ for (i in 1:length(ID)) {
   totalCounts<-colSums(counts)
   
   plot(meta$Timepoint, totalCounts, col = "olivedrab4", pch = 19, 
-       xlab = "Days", ylab = "vsearch Counts",
+       xlab = "Days", ylab = "vsearch Log10 Counts",
        main = paste0("D", ID[i]))
   
 }

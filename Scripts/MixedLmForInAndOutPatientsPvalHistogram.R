@@ -21,9 +21,9 @@ par(mar=c(5, 6, 4, 1)+.1)
 
 modelPvals<-vector()
 for (i in 1:nrow(brackenT)) {
-  myM<-data.frame(unlist(brackenT[i, ]), metaBRACKEN$Timepoint, metaBRACKEN$ID, metaBRACKEN$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
-  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(brackenT[i, ]), metaBRACKEN$Timepoint, metaBRACKEN$ptInOut, metaBRACKEN$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }
@@ -35,9 +35,9 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 
 modelPvals<-vector()
 for (i in 1:nrow(amrT)) {
-  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ID, metaAMR$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
-  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(amrT[i, ]), metaAMR$Timepoint, metaAMR$ptInOut, metaAMR$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }
@@ -49,9 +49,9 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 
 modelPvals<-vector()
 for (i in 1:nrow(rgiT)) {
-  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ID, metaRGI$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
-  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(rgiT[i, ]), metaRGI$Timepoint, metaRGI$ptInOut, metaRGI$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }
@@ -63,9 +63,9 @@ mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 
 modelPvals<-vector()
 for (i in 1:nrow(vsearchT)) {
-  myM<-data.frame(unlist(vsearchT[i, ]), metaVSEARCH$Timepoint, metaVSEARCH$ID, metaVSEARCH$ptInOut)
-  colnames(myM)<-c("counts", "timePoint", "ID", "InOut")
-  Model<-lme(counts ~ timePoint + ID, random = ~1 | InOut, data = myM)
+  myM<-data.frame(unlist(vsearchT[i, ]), metaVSEARCH$Timepoint, metaVSEARCH$ptInOut, metaVSEARCH$ID)
+  colnames(myM)<-c("counts", "timePoint", "InOut", "ID")
+  Model<-lme(counts ~ timePoint + InOut, random = ~1 | ID, data = myM)
   modelPvals[i]<-anova(Model)[2,4]
   
 }

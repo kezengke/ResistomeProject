@@ -55,7 +55,7 @@ colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 2), `[`, 2)
 #get rid of sample with all 0s
 amrT<-amrT[, -27]
 
-amrT<-amrT[intersect(rownames(amrT), masterAMRlist$AMR.name), , drop = F]
+# amrT<-amrT[intersect(rownames(amrT), masterAMRlist$AMR.name), , drop = F]
 
 write.csv(amrT, "CountsTables/amrProcessed.csv")
 
@@ -69,7 +69,7 @@ colnames(rgiT)[SampleWithDots]<-sub("\\.", "", colnames(rgiT)[SampleWithDots]) #
 colnames(rgiT)<-sub("\\.", "-", colnames(rgiT)) #replace . with - to match with metadata
 colnames(rgiT)<-sapply(str_split(colnames(rgiT), "_", n = 2), `[`, 2)
 
-rgiT<-rgiT[intersect(rownames(rgiT), masterAMRlist$RGI.CARD.Short.Name), , drop = F]
+# rgiT<-rgiT[intersect(rownames(rgiT), masterAMRlist$RGI.CARD.Short.Name), , drop = F]
 
 write.csv(rgiT, "CountsTables/rgiProcessed.csv")
 
@@ -86,6 +86,6 @@ colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 2), `[`, 2)
 
 rownames(vsearchT)<-sapply(str_split(rownames(vsearchT), "\\|", n = 6), `[`, 6)
 
-vsearchT<-vsearchT[intersect(rownames(vsearchT), masterAMRlist$Vsearch.ARO.Name), , drop = F]
+# vsearchT<-vsearchT[intersect(rownames(vsearchT), masterAMRlist$Vsearch.ARO.Name), , drop = F]
 
 write.csv(vsearchT, "CountsTables/vsearchProcessed.csv")

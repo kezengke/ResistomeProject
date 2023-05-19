@@ -7,10 +7,10 @@ library("dplyr")
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
 #counts tables
-brackenT<-read.csv("CountsTables/brackenNormalized.csv", header = T, row.names = 1, check.names = F)
-amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, check.names = F)
-rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
-vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
+brackenT<-read.csv("CountsTables/brackenFiltered.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
 #exclude days after 600 days
 brackenT<-brackenT[, -which(colnames(brackenT) %in% c(rownames(metaData)[metaData$Timepoint>600])) ]

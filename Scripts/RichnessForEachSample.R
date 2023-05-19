@@ -5,7 +5,7 @@ library(stringr)
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
 #AMR
-amrT<-read.csv("CountsTables/amrProcessed.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.names = F)
 metaAMR<-metaData[colnames(amrT), , drop = F]
 ID<-unique(metaAMR$PID)
 
@@ -24,7 +24,7 @@ for (i in 1:length(ID)) {
 dev.off()
 
 #RGI
-rgiT<-read.csv("CountsTables/rgiProcessed.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 metaRGI<-metaData[colnames(rgiT), , drop = F]
 ID<-unique(metaRGI$PID)
 
@@ -43,7 +43,7 @@ for (i in 1:length(ID)) {
 dev.off()
 
 #VSEARCH
-vsearchT<-read.csv("CountsTables/vsearchProcessed.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 metaVSEARCH<-metaData[colnames(vsearchT), , drop = F]
 ID<-unique(metaVSEARCH$PID)
 

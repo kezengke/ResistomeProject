@@ -10,9 +10,9 @@ geneMatchT<-read.csv("MASTER_AMRlist_2023_03.csv", sep = ",", header = T)
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
 #counts tables
-amrT<-read.csv("CountsTables/amrNormalized.csv", header = T, row.names = 1, check.names = F)
-rgiT<-read.csv("CountsTables/rgiNormalized.csv", header = T, row.names = 1, check.names = F)
-vsearchT<-read.csv("CountsTables/vsearchNormalized.csv", header = T, row.names = 1, check.names = F)
+amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.names = F)
+rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
+vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
 #filtering
 amrT<-amrT[apply(amrT == 0, 1, sum) <= (ncol(amrT)*0.8), ]
