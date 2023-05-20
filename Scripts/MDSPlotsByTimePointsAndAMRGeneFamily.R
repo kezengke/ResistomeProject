@@ -12,52 +12,73 @@ amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.
 rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
+# Function to find row numbers
+find_row_numbers <- function(matrix, strings) {
+  row_numbers <- lapply(strings, function(string) {
+    matches <- which(matrix == string, arr.ind = TRUE)[, "row"]
+    if (length(matches) > 0) {
+      matches[1]
+    } else {
+      NA
+    }
+  })
+  unlist(row_numbers)
+}
+
+amrRows<-find_row_numbers(geneMatchT, rownames(amrT))
+rgiRows<-find_row_numbers(geneMatchT, rownames(rgiT))
+vsearchRows<-find_row_numbers(geneMatchT, rownames(vsearchT))
+
 #AMR
 #keep only the rows present in amr counts table in master list
-amrMatchT<-geneMatchT %>% filter(row_number() %in% match(rownames(amrT), geneMatchT$AMR.name))
+amrMatchT<-geneMatchT[amrRows, , drop = F]
+amrMatchT<-data.frame(rownames(amrT), amrMatchT[, 11]) #keep only the gene name and AMR Gene Family columns
+colnames(amrMatchT)<-c("gene", "AMR.Gene.Family")
 amrMatchT<-na.omit(amrMatchT)
-amrMatchT<-amrMatchT[, c(18,11)] #keep only the gene name and AMR Gene Family columns
 
 amrTypes<-unique(amrMatchT$AMR.Gene.Family) #all drug types
 newamrT<-c()
 for (i in 1:length(amrTypes)) {
   genes<-amrMatchT %>% filter(amrMatchT$AMR.Gene.Family == amrTypes[i])
-  currentFrame<-amrT[genes$AMR.name, ]
+  currentFrame<-amrT[genes$gene, ]
   sumRow<-colSums(currentFrame)
   newamrT<-rbind(newamrT, sumRow)
 }
 rownames(newamrT)<-amrTypes
-newamrT<-newamrT[, -which(colSums(newamrT) == 0)]
 
 #RGI
 #keep only the rows present in rgi counts table in master list
-rgiMatchT<-geneMatchT %>% filter(row_number() %in% match(rownames(rgiT), geneMatchT$RGI.CARD.Short.Name))
-rgiMatchT<-rgiMatchT[, c(15,11)] #keep only the gene name and AMR Gene Family columns
+rgiMatchT<-geneMatchT[rgiRows, , drop = F]
+rgiMatchT<-data.frame(rownames(rgiT), rgiMatchT[, 11]) #keep only the gene name and AMR Gene Family columns
+colnames(rgiMatchT)<-c("gene", "AMR.Gene.Family")
+rgiMatchT<-na.omit(rgiMatchT)
 
-rgiTypes<-unique(rgiMatchT$AMR.Gene.Family) #all drug types
+amrTypes<-unique(rgiMatchT$AMR.Gene.Family) #all drug types
 newrgiT<-c()
-for (i in 1:length(rgiTypes)) {
-  genes<-rgiMatchT %>% filter(rgiMatchT$AMR.Gene.Family == rgiTypes[i])
-  currentFrame<-rgiT[genes$RGI.CARD.Short.Name, ]
+for (i in 1:length(amrTypes)) {
+  genes<-rgiMatchT %>% filter(rgiMatchT$AMR.Gene.Family == amrTypes[i])
+  currentFrame<-rgiT[genes$gene, ]
   sumRow<-colSums(currentFrame)
   newrgiT<-rbind(newrgiT, sumRow)
 }
-rownames(newrgiT)<-rgiTypes
+rownames(newrgiT)<-amrTypes
 
 #VSEARCH
 #keep only the rows present in vsearch counts table in master list
-vsearchMatchT<-geneMatchT %>% filter(row_number() %in% match(rownames(vsearchT), geneMatchT$Vsearch.ARO.Name))
-vsearchMatchT<-vsearchMatchT[, c(7,11)] #keep only the gene name and AMR Gene Family columns
+vsearchMatchT<-geneMatchT[vsearchRows, , drop = F]
+vsearchMatchT<-data.frame(rownames(vsearchT), vsearchMatchT[, 11]) #keep only the gene name and AMR Gene Family columns
+colnames(vsearchMatchT)<-c("gene", "AMR.Gene.Family")
+vsearchMatchT<-na.omit(vsearchMatchT)
 
-vsearchTypes<-unique(vsearchMatchT$AMR.Gene.Family) #all drug types
+amrTypes<-unique(vsearchMatchT$AMR.Gene.Family) #all drug types
 newvsearchT<-c()
-for (i in 1:length(vsearchTypes)) {
-  genes<-vsearchMatchT %>% filter(vsearchMatchT$AMR.Gene.Family == vsearchTypes[i])
-  currentFrame<-vsearchT[genes$Vsearch.ARO.Name, ]
+for (i in 1:length(amrTypes)) {
+  genes<-vsearchMatchT %>% filter(vsearchMatchT$AMR.Gene.Family == amrTypes[i])
+  currentFrame<-vsearchT[genes$gene, ]
   sumRow<-colSums(currentFrame)
   newvsearchT<-rbind(newvsearchT, sumRow)
 }
-rownames(newvsearchT)<-vsearchTypes
+rownames(newvsearchT)<-amrTypes
 
 metaAMR<-metaData[colnames(newamrT), , drop = F]
 metaRGI<-metaData[colnames(newrgiT), , drop = F]

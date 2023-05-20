@@ -1,4 +1,4 @@
-# pval histogram of mixed linear models
+#sorted second order mixed linear model plots.
 rm(list = ls())
 library(stringr)
 library("dplyr")
@@ -12,34 +12,52 @@ amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.
 rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
+# Function to find row numbers
+find_row_numbers <- function(matrix, strings) {
+  row_numbers <- lapply(strings, function(string) {
+    matches <- which(matrix == string, arr.ind = TRUE)[, "row"]
+    if (length(matches) > 0) {
+      matches[1]
+    } else {
+      NA
+    }
+  })
+  unlist(row_numbers)
+}
+
+amrRows<-find_row_numbers(geneMatchT, rownames(amrT))
+rgiRows<-find_row_numbers(geneMatchT, rownames(rgiT))
+vsearchRows<-find_row_numbers(geneMatchT, rownames(vsearchT))
+
 #AMR
 #keep only the rows present in amr counts table in master list
-amrMatchT<-geneMatchT %>% filter(row_number() %in% match(rownames(amrT), geneMatchT$AMR.name))
+amrMatchT<-geneMatchT[amrRows, , drop = F]
+amrMatchT<-data.frame(rownames(amrT), amrMatchT[, 17]) #keep only the gene name and Corrected AMR classification column
+colnames(amrMatchT)<-c("gene", "Corrected.AMR.classification")
 amrMatchT<-na.omit(amrMatchT)
-amrMatchT<-amrMatchT[, c(18,17)] #keep only the gene name and Corrected AMR classification column
 
 amrTypes<-unique(amrMatchT$Corrected.AMR.classification)
 newamrT<-c()
 for (i in 1:length(amrTypes)) {
-  genes<-amrMatchT %>% filter(amrMatchT$Corrected.AMR.classification == Corrected.AMR.classification[i])
-  currentFrame<-amrT[genes$AMR.name, ]
+  genes<-amrMatchT %>% filter(amrMatchT$Corrected.AMR.classification == amrTypes[i])
+  currentFrame<-amrT[genes$gene, ]
   sumRow<-colSums(currentFrame)
   newamrT<-rbind(newamrT, sumRow)
 }
 rownames(newamrT)<-amrTypes
-#exclude samples with 0 counts in every row
-newamrT<-newamrT[, -which(colSums(newamrT) == 0)]
 
 #RGI
 #keep only the rows present in rgi counts table in master list
-rgiMatchT<-geneMatchT %>% filter(row_number() %in% match(rownames(rgiT), geneMatchT$RGI.CARD.Short.Name))
-rgiMatchT<-rgiMatchT[, c(15,17)] #keep only the gene name and Corrected AMR classification column
+rgiMatchT<-geneMatchT[rgiRows, , drop = F]
+rgiMatchT<-data.frame(rownames(rgiT), rgiMatchT[, 17]) #keep only the gene name and Corrected AMR classification column
+colnames(rgiMatchT)<-c("gene", "Corrected.AMR.classification")
+rgiMatchT<-na.omit(rgiMatchT)
 
 amrTypes<-unique(rgiMatchT$Corrected.AMR.classification)
 newrgiT<-c()
 for (i in 1:length(amrTypes)) {
   genes<-rgiMatchT %>% filter(rgiMatchT$Corrected.AMR.classification == amrTypes[i])
-  currentFrame<-rgiT[genes$RGI.CARD.Short.Name, ]
+  currentFrame<-rgiT[genes$gene, ]
   sumRow<-colSums(currentFrame)
   newrgiT<-rbind(newrgiT, sumRow)
 }
@@ -47,14 +65,16 @@ rownames(newrgiT)<-amrTypes
 
 #VSEARCH
 #keep only the rows present in vsearch counts table in master list
-vsearchMatchT<-geneMatchT %>% filter(row_number() %in% match(rownames(vsearchT), geneMatchT$Vsearch.ARO.Name))
-vsearchMatchT<-vsearchMatchT[, c(7,17)] #keep only the gene name and Corrected AMR classification column
+vsearchMatchT<-geneMatchT[vsearchRows, , drop = F]
+vsearchMatchT<-data.frame(rownames(vsearchT), vsearchMatchT[, 17]) #keep only the gene name and Corrected AMR classification column
+colnames(vsearchMatchT)<-c("gene", "Corrected.AMR.classification")
+vsearchMatchT<-na.omit(vsearchMatchT)
 
 amrTypes<-unique(vsearchMatchT$Corrected.AMR.classification)
 newvsearchT<-c()
 for (i in 1:length(amrTypes)) {
   genes<-vsearchMatchT %>% filter(vsearchMatchT$Corrected.AMR.classification == amrTypes[i])
-  currentFrame<-vsearchT[genes$Vsearch.ARO.Name, ]
+  currentFrame<-vsearchT[genes$gene, ]
   sumRow<-colSums(currentFrame)
   newvsearchT<-rbind(newvsearchT, sumRow)
 }
