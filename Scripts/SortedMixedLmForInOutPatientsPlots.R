@@ -30,7 +30,7 @@ pvals$adjtimePoint<-p.adjust(pvals$timePoint, method = "BH")
 pvals$adjInOut<-p.adjust(pvals$InOutOutpatient, method = "BH")
 pvals$adjtimePointInOut<-p.adjust(pvals$timePoint.InOutOutpatient, method = "BH")
 
-plot_order<-order(pvals$timePoint.InOutOutpatient)
+plot_order<-order(pvals$InOutOutpatient)
 for (i in 1:nrow(brackenT)) {
   mainText<-paste0(rownames(brackenT)[plot_order[i]], 
                    "\nTimePoint P=", signif(pvals[plot_order[i], 1], 3), ", ", "adj. TimePoint P=", signif(pvals[plot_order[i], 4], 3),
@@ -63,7 +63,7 @@ pvals$adjtimePoint<-p.adjust(pvals$timePoint, method = "BH")
 pvals$adjInOut<-p.adjust(pvals$InOutOutpatient, method = "BH")
 pvals$adjtimePointInOut<-p.adjust(pvals$timePoint.InOutOutpatient, method = "BH")
 
-plot_order<-order(pvals$timePoint.InOutOutpatient)
+plot_order<-order(pvals$InOutOutpatient)
 for (i in 1:nrow(amrT)) {
   mainText<-paste0(rownames(amrT)[plot_order[i]], 
                    "\nTimePoint P=", signif(pvals[plot_order[i], 1], 3), ", ", "adj. TimePoint P=", signif(pvals[plot_order[i], 4], 3),
@@ -96,7 +96,7 @@ pvals$adjtimePoint<-p.adjust(pvals$timePoint, method = "BH")
 pvals$adjInOut<-p.adjust(pvals$InOutOutpatient, method = "BH")
 pvals$adjtimePointInOut<-p.adjust(pvals$timePoint.InOutOutpatient, method = "BH")
 
-plot_order<-order(pvals$timePoint.InOutOutpatient)
+plot_order<-order(pvals$InOutOutpatient)
 for (i in 1:nrow(rgiT)) {
   mainText<-paste0(rownames(rgiT)[plot_order[i]], 
                    "\nTimePoint P=", signif(pvals[plot_order[i], 1], 3), ", ", "adj. TimePoint P=", signif(pvals[plot_order[i], 4], 3),
@@ -129,7 +129,7 @@ pvals$adjtimePoint<-p.adjust(pvals$timePoint, method = "BH")
 pvals$adjInOut<-p.adjust(pvals$InOutOutpatient, method = "BH")
 pvals$adjtimePointInOut<-p.adjust(pvals$timePoint.InOutOutpatient, method = "BH")
 
-plot_order<-order(pvals$timePoint.InOutOutpatient)
+plot_order<-order(pvals$InOutOutpatient)
 for (i in 1:nrow(vsearchT)) {
   mainText<-paste0(rownames(vsearchT)[plot_order[i]], 
                    "\nTimePoint P=", signif(pvals[plot_order[i], 1], 3), ", ", "adj. TimePoint P=", signif(pvals[plot_order[i], 4], 3),
