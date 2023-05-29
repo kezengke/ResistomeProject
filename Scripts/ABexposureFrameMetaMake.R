@@ -2,21 +2,21 @@
 rm(list = ls())
 
 #exposure time frame
-A_expo<-read.csv("AntibioticsExposure.csv", check.names = F, header = T)
+A_expo<-read.csv("AntibioticsExposureNewGroup.csv", check.names = F, header = T)
 #metadata
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1, check.names = F)
 
-IDtype<-unique(A_expo$ID) #patient ID
-ABtype<-unique(A_expo$AntibioticType) #antibiotic types
+IDtype<-unique(A_expo$Patient) #patient ID
+ABtype<-unique(A_expo$Antibiotic) #antibiotic types
 
 makeMeta <- function(days, metaData, ABtype, A_expo) {
   meta<-metaData
   for (i in 1:length(ABtype)) {
     AB<-vector()
-    checkABframe<-A_expo[A_expo$AntibioticType == ABtype[i], ]
+    checkABframe<-A_expo[A_expo$Antibiotic == ABtype[i], ]
     for (j in 1:nrow(metaData)) {
-      AB[j]<-sum(metaData[j, 2] > checkABframe[checkABframe$ID == metaData[j, 1], 3] & 
-                   metaData[j, 2] < (checkABframe[checkABframe$ID == metaData[j, 1], 4]+days))
+      AB[j]<-sum(metaData[j, 2] > checkABframe[checkABframe$Patient == metaData[j, 1], 3] & 
+                   metaData[j, 2] < (checkABframe[checkABframe$Patient == metaData[j, 1], 4]+days))
     }
     new_AB<-ifelse(AB > 0, "Yes", "No")
     cname<-ABtype[i]

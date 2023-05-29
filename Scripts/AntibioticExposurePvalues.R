@@ -2,7 +2,7 @@ rm(list = ls())
 library("dplyr")
 library(stringr)
 
-A_expo<-read.csv("AntibioticsExposure.csv", check.names = F, header = T)
+A_expo<-read.csv("AntibioticsExposureNewGroup.csv", check.names = F, header = T)
 
 #gene category match table
 geneMatchT<-read.csv("MASTER_AMRlist_2023_03.csv", sep = ",", header = T)
