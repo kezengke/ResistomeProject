@@ -71,6 +71,12 @@ colnames(rgiT)<-sapply(str_split(colnames(rgiT), "_", n = 2), `[`, 2)
 
 # rgiT<-rgiT[intersect(rownames(rgiT), masterAMRlist$RGI.CARD.Short.Name), , drop = F]
 
+#manually changing some gene names to match with master list for certain analysis
+rownames(rgiT)[15]<-"tetT"
+rownames(rgiT)[19]<-"tet36"
+rownames(rgiT)[46]<-"tet32"
+rownames(rgiT)[216]<-"tetU"
+
 write.csv(rgiT, "CountsTables/rgiProcessed.csv")
 
 #vsearch
