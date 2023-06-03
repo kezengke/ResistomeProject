@@ -9,8 +9,18 @@ amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.
 rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
-pres<-rownames(metaData)[metaData$bins == "PRE"]
-posts<-rownames(metaData)[metaData$bins != "PRE"]
+patients<-unique(metaData$ID)
+
+pres<-vector()
+posts<-vector()
+for (i in 1:length(patients)) {
+  patient<-metaData[metaData$ID == patients[i], , drop = F]
+  pres[i]<-rownames(patient)[patient$bins == "PRE"]
+  posts[i]<-rownames(patient)[patient$Timepoint == max(patient$Timepoint)]
+}
+
+# pres<-rownames(metaData)[metaData$bins == "PRE"]
+# posts<-rownames(metaData)[metaData$bins != "PRE"]
 
 brackenPre<-brackenT[, pres, drop = F]
 brackenPost<-brackenT[, posts, drop = F]

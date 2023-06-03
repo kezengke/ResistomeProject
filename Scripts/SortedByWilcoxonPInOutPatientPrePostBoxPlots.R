@@ -29,8 +29,15 @@ amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.
 rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
-pres<-rownames(metaData)[metaData$bins == "PRE"]
-posts<-rownames(metaData)[metaData$bins != "PRE"]
+patients<-unique(metaData$ID)
+
+pres<-vector()
+posts<-vector()
+for (i in 1:length(patients)) {
+  patient<-metaData[metaData$ID == patients[i], , drop = F]
+  pres[i]<-rownames(patient)[patient$bins == "PRE"]
+  posts[i]<-rownames(patient)[patient$Timepoint == max(patient$Timepoint)]
+}
 
 brackenPre<-brackenT[, pres, drop = F]
 brackenPost<-brackenT[, posts, drop = F]
@@ -74,8 +81,8 @@ for (i in 1:nrow(brackenT)){
   stripchart(unlist(brackenPre[i,])~metaBRACKENpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #bracken post
@@ -92,8 +99,8 @@ for (i in 1:nrow(brackenT)){
   stripchart(unlist(brackenPost[i,])~metaBRACKENpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 
@@ -111,8 +118,8 @@ for (i in 1:nrow(amrT)){
   stripchart(unlist(amrPre[i,])~metaAMRpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(amrPreResults[rownames(amrPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(amrPreResults[rownames(amrPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(amrPreResults[rownames(amrPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(amrPreResults[rownames(amrPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #amr post
@@ -129,8 +136,8 @@ for (i in 1:nrow(amrT)){
   stripchart(unlist(amrPost[i,])~metaAMRpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(amrPostResults[rownames(amrPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(amrPostResults[rownames(amrPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(amrPostResults[rownames(amrPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(amrPostResults[rownames(amrPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 
@@ -148,8 +155,8 @@ for (i in 1:nrow(rgiT)){
   stripchart(unlist(rgiPre[i,])~metaRGIpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #rgi post
@@ -166,8 +173,8 @@ for (i in 1:nrow(rgiT)){
   stripchart(unlist(rgiPost[i,])~metaRGIpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 
@@ -185,8 +192,8 @@ for (i in 1:nrow(vsearchT)){
   stripchart(unlist(vsearchPre[i,])~metaVSEARCHpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #vsearch post
@@ -203,7 +210,7 @@ for (i in 1:nrow(vsearchT)){
   stripchart(unlist(vsearchPost[i,])~metaVSEARCHpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("T-Test P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. T-Test P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Wilcox P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Wilcox P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
