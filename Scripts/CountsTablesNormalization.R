@@ -6,6 +6,7 @@ brackenT<-read.csv("CountsTables/brackenProcessed.csv", header = T, row.names = 
 amrT<-read.csv("CountsTables/amrProcessed.csv", header = T, row.names = 1, check.names = F)
 rgiT<-read.csv("CountsTables/rgiProcessed.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchProcessed.csv", header = T, row.names = 1, check.names = F)
+genusT<-read.csv("CountsTables/genusProcessed.csv", header = T, row.names = 1, check.names = F)
 
 #Normalization
 n<-colSums(brackenT)
@@ -36,7 +37,15 @@ for (i in 1:ncol(vsearchT)) {
 }
 vsearchT<-log10(vsearchT*(sumx/ncol(vsearchT))+1)
 
+n<-colSums(genusT)
+sumx<-sum(genusT)
+for (i in 1:ncol(genusT)) {
+  genusT[,i]<-genusT[,i]/n[i]
+}
+genusT<-log10(genusT*(sumx/ncol(genusT))+1)
+
 write.csv(brackenT, "CountsTables/brackenNormalized.csv")
 write.csv(amrT, "CountsTables/amrNormalized.csv")
 write.csv(rgiT, "CountsTables/rgiNormalized.csv")
 write.csv(vsearchT, "CountsTables/vsearchNormalized.csv")
+write.csv(genusT, "CountsTables/genusNormalized.csv")
