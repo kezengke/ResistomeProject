@@ -1,31 +1,31 @@
-#sorted boxplot for in/out patient Wilcoxon
+#sorted boxplot for in/out patient Ttest
 rm(list = ls())
 
 metaData<-read.csv("metaWithBins.csv", header = T, row.names = 1)
 
 #wilcox results
-brackenPreResults<-read.csv("Wilcox/brackenPreInOut.csv", row.names = 1)
-brackenPostResults<-read.csv("Wilcox/brackenPostInOut.csv", row.names = 1)
-amrPreResults<-read.csv("Wilcox/amrPreInOut.csv", row.names = 1)
-amrPostResults<-read.csv("Wilcox/amrPostInOut.csv", row.names = 1)
-rgiPreResults<-read.csv("Wilcox/rgiPreInOut.csv", row.names = 1)
-rgiPostResults<-read.csv("Wilcox/rgiPostInOut.csv", row.names = 1)
-vsearchPreResults<-read.csv("Wilcox/vsearchPreInOut.csv", row.names = 1)
-vsearchPostResults<-read.csv("Wilcox/vsearchPostInOut.csv", row.names = 1)
-genusPreResults<-read.csv("Wilcox/genusPreInOut.csv", row.names = 1)
-genusPostResults<-read.csv("Wilcox/genusPostInOut.csv", row.names = 1)
+brackenPreResults<-read.csv("Ttest/brackenPreInOut.csv", row.names = 1)
+brackenPostResults<-read.csv("Ttest/brackenPostInOut.csv", row.names = 1)
+amrPreResults<-read.csv("Ttest/amrPreInOut.csv", row.names = 1)
+amrPostResults<-read.csv("Ttest/amrPostInOut.csv", row.names = 1)
+rgiPreResults<-read.csv("Ttest/rgiPreInOut.csv", row.names = 1)
+rgiPostResults<-read.csv("Ttest/rgiPostInOut.csv", row.names = 1)
+vsearchPreResults<-read.csv("Ttest/vsearchPreInOut.csv", row.names = 1)
+vsearchPostResults<-read.csv("Ttest/vsearchPostInOut.csv", row.names = 1)
+genusPreResults<-read.csv("Ttest/genusPreInOut.csv", row.names = 1)
+genusPostResults<-read.csv("Ttest/genusPostInOut.csv", row.names = 1)
 
-#sort wilcox results
-brackenPreResults<-brackenPreResults[order(brackenPreResults$brackenPreWilcox_p), , drop = F]
-brackenPostResults<-brackenPostResults[order(brackenPostResults$brackenPostWilcox_p), , drop = F]
-amrPreResults<-amrPreResults[order(amrPreResults$amrPreWilcox_p), , drop = F]
-amrPostResults<-amrPostResults[order(amrPostResults$amrPostWilcox_p), , drop = F]
-rgiPreResults<-rgiPreResults[order(rgiPreResults$rgiPreWilcox_p), , drop = F]
-rgiPostResults<-rgiPostResults[order(rgiPostResults$rgiPostWilcox_p), , drop = F]
-vsearchPreResults<-vsearchPreResults[order(vsearchPreResults$vsearchPreWilcox_p), , drop = F]
-vsearchPostResults<-vsearchPostResults[order(vsearchPostResults$vsearchPostWilcox_p), , drop = F]
-genusPreResults<-genusPreResults[order(genusPreResults$genusPreWilcox_p), , drop = F]
-genusPostResults<-genusPostResults[order(genusPostResults$genusPostWilcox_p), , drop = F]
+#sort ttest results
+brackenPreResults<-brackenPreResults[order(brackenPreResults$brackenPreTtest_p), , drop = F]
+brackenPostResults<-brackenPostResults[order(brackenPostResults$brackenPostTtest_p), , drop = F]
+amrPreResults<-amrPreResults[order(amrPreResults$amrPreTtest_p), , drop = F]
+amrPostResults<-amrPostResults[order(amrPostResults$amrPostTtest_p), , drop = F]
+rgiPreResults<-rgiPreResults[order(rgiPreResults$rgiPreTtest_p), , drop = F]
+rgiPostResults<-rgiPostResults[order(rgiPostResults$rgiPostTtest_p), , drop = F]
+vsearchPreResults<-vsearchPreResults[order(vsearchPreResults$vsearchPreTtest_p), , drop = F]
+vsearchPostResults<-vsearchPostResults[order(vsearchPostResults$vsearchPostTtest_p), , drop = F]
+genusPreResults<-genusPreResults[order(genusPreResults$genusPreTtest_p), , drop = F]
+genusPostResults<-genusPostResults[order(genusPostResults$genusPostTtest_p), , drop = F]
 
 #counts tables
 brackenT<-read.csv("CountsTables/brackenFiltered.csv", header = T, row.names = 1, check.names = F)
@@ -41,7 +41,7 @@ posts<-vector()
 for (i in 1:length(patients)) {
   patient<-metaData[metaData$ID == patients[i], , drop = F]
   pres[i]<-rownames(patient)[patient$bins == "PRE"]
-  posts[i]<-rownames(patient)[patient$Timepoint == max(patient$Timepoint)]
+  posts[i]<-rownames(patient)[which.min(abs(patient$Timepoint - 28))]
 }
 
 brackenPre<-brackenT[, pres, drop = F]
@@ -55,7 +55,7 @@ vsearchPost<-vsearchT[, posts, drop = F]
 genusPre<-genusT[, pres, drop = F]
 genusPost<-genusT[, posts, drop = F]
 
-#sort counts tables based on wilcox results
+#sort counts tables based on ttest results
 brackenPre<-brackenPre[rownames(brackenPreResults), , drop = F]
 brackenPost<-brackenPost[rownames(brackenPostResults), , drop = F]
 amrPre<-amrPre[rownames(amrPreResults), , drop = F]
@@ -79,7 +79,7 @@ metaGENUSpre<-metaData[colnames(genusPre), , drop = F]
 metaGENUSpost<-metaData[colnames(genusPost), , drop = F]
 
 #bracken pre
-pdf("Plots/BrackenSpeciesPreInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/BrackenSpeciesPreInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -92,12 +92,12 @@ for (i in 1:nrow(brackenT)){
   stripchart(unlist(brackenPre[i,])~metaBRACKENpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(brackenPreResults[rownames(brackenPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #bracken post
-pdf("Plots/BrackenSpeciesPostInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/BrackenSpeciesPostInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -110,13 +110,13 @@ for (i in 1:nrow(brackenT)){
   stripchart(unlist(brackenPost[i,])~metaBRACKENpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(brackenPostResults[rownames(brackenPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 
 #genus pre
-pdf("Plots/BrackenGenusPreInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/BrackenGenusPreInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -129,12 +129,12 @@ for (i in 1:nrow(genusT)){
   stripchart(unlist(genusPre[i,])~metaGENUSpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(genusPreResults[rownames(genusPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(genusPreResults[rownames(genusPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(genusPreResults[rownames(genusPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(genusPreResults[rownames(genusPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #genus post
-pdf("Plots/BrackenGenusPostInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/BrackenGenusPostInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -147,13 +147,13 @@ for (i in 1:nrow(genusT)){
   stripchart(unlist(genusPost[i,])~metaBRACKENpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(genusPostResults[rownames(genusPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(genusPostResults[rownames(genusPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(genusPostResults[rownames(genusPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(genusPostResults[rownames(genusPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 
 #amr pre
-pdf("Plots/AMRPreInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/AMRPreInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -166,12 +166,12 @@ for (i in 1:nrow(amrT)){
   stripchart(unlist(amrPre[i,])~metaAMRpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(amrPreResults[rownames(amrPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(amrPreResults[rownames(amrPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(amrPreResults[rownames(amrPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(amrPreResults[rownames(amrPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #amr post
-pdf("Plots/AMRPostInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/AMRPostInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -184,13 +184,13 @@ for (i in 1:nrow(amrT)){
   stripchart(unlist(amrPost[i,])~metaAMRpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(amrPostResults[rownames(amrPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(amrPostResults[rownames(amrPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(amrPostResults[rownames(amrPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(amrPostResults[rownames(amrPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 
 #rgi pre
-pdf("Plots/RGIPreInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/RGIPreInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -203,12 +203,12 @@ for (i in 1:nrow(rgiT)){
   stripchart(unlist(rgiPre[i,])~metaRGIpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(rgiPreResults[rownames(rgiPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #rgi post
-pdf("Plots/RGIPostInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/RGIPostInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -221,13 +221,13 @@ for (i in 1:nrow(rgiT)){
   stripchart(unlist(rgiPost[i,])~metaRGIpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(rgiPostResults[rownames(rgiPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 
 #vsearch pre
-pdf("Plots/VsearchPreInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/VsearchPreInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -240,12 +240,12 @@ for (i in 1:nrow(vsearchT)){
   stripchart(unlist(vsearchPre[i,])~metaVSEARCHpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(vsearchPreResults[rownames(vsearchPre[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()
 #vsearch post
-pdf("Plots/VsearchPostInOutPatientSortedBoxPlots(Wilcox).pdf", width=14, height=7)
+pdf("Plots/VsearchPostInOutPatientSortedBoxPlots(Ttest).pdf", width=14, height=7)
 par(mfrow=c(2, 4))
 par(mar=c(5,6,4,1)+.1)
 label = c("In", "Out")
@@ -258,7 +258,7 @@ for (i in 1:nrow(vsearchT)){
   stripchart(unlist(vsearchPost[i,])~metaVSEARCHpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
-  mtext(paste("Wilcox P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
-  mtext(paste("Adj. Wilcox P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
+  mtext(paste("Ttest P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),1],digits = 3)),3, 0.9, cex = 0.6, adj = 0)
+  mtext(paste("Adj. Ttest P-value:",signif(vsearchPostResults[rownames(vsearchPost[i,]),2],digits = 3)),3, 0.9, cex = 0.6, adj = 1)
 }
 dev.off()

@@ -10,22 +10,38 @@ rgiPreResults<-read.csv("Wilcox/rgiPreInOut.csv", row.names = 1)
 rgiPostResults<-read.csv("Wilcox/rgiPostInOut.csv", row.names = 1)
 vsearchPreResults<-read.csv("Wilcox/vsearchPreInOut.csv", row.names = 1)
 vsearchPostResults<-read.csv("Wilcox/vsearchPostInOut.csv", row.names = 1)
+genusPreResults<-read.csv("Wilcox/genusPreInOut.csv", row.names = 1)
+genusPostResults<-read.csv("Wilcox/genusPostInOut.csv", row.names = 1)
 
-pdf("Plots/PrePostInVsOutPatientWilcoxonPvalHistograms.pdf", width=12, height=24)
-par(mfrow=c(4, 2))
+pdf("Plots/PrePostInVsOutPatientWilcoxonPvalHistograms.pdf", width=12, height=12)
+par(mfrow=c(2, 2))
 par(mar=c(5, 6, 4, 1)+.1)
 #bracken
 hist(brackenPreResults$brackenPreWilcox_p, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "tan2",
      main = "Bracken(Species) Pre In vs Out Wilcoxon P-vals", 
-     xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
+     xlim=c(0,1), cex.lab = 1.5, cex.main = 1.5, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
 
 hist(brackenPostResults$brackenPostWilcox_p, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "tan2",
      main = "Bracken(Species) Post In vs Out Wilcoxon P-vals", 
-     xlim=c(0,1), cex.lab = 1.5, cex.main = 1.7, cex.axis = 1.4)
+     xlim=c(0,1), cex.lab = 1.5, cex.main = 1.5, cex.axis = 1.4)
 abline(v=0.05, col=gray(.5), lty=2)
 mtext(at=0.05, side=3, text=0.05, col=gray(.5))
+
+#genus
+hist(genusPreResults$genusPreWilcox_p, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "orchid3",
+     main = "Bracken(Genus) Pre In vs Out Wilcoxon P-vals", 
+     xlim=c(0,1), cex.lab = 1.5, cex.main = 1.5, cex.axis = 1.4)
+abline(v=0.05, col=gray(.5), lty=2)
+mtext(at=0.05, side=3, text=0.05, col=gray(.5))
+
+hist(genusPostResults$genusPostWilcox_p, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "orchid3",
+     main = "Bracken(Genus) Post In vs Out Wilcoxon P-vals", 
+     xlim=c(0,1), cex.lab = 1.5, cex.main = 1.5, cex.axis = 1.4)
+abline(v=0.05, col=gray(.5), lty=2)
+mtext(at=0.05, side=3, text=0.05, col=gray(.5))
+
 #amr
 hist(amrPreResults$amrPreWilcox_p, breaks=seq(0, 1, 0.05), xlab = "p-value", col = "coral3",
      main = "AMR Pre In vs Out Wilcoxon P-vals", 

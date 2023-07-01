@@ -8,6 +8,7 @@ brackenT<-read.csv("CountsTables/brackenFiltered.csv", header = T, row.names = 1
 amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.names = F)
 rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
+genusT<-read.csv("CountsTables/genusFiltered.csv", header = T, row.names = 1, check.names = F)
 
 patients<-unique(metaData$ID)
 
@@ -16,11 +17,8 @@ posts<-vector()
 for (i in 1:length(patients)) {
   patient<-metaData[metaData$ID == patients[i], , drop = F]
   pres[i]<-rownames(patient)[patient$bins == "PRE"]
-  posts[i]<-rownames(patient)[patient$Timepoint == max(patient$Timepoint)]
+  posts[i]<-rownames(patient)[which.min(abs(patient$Timepoint - 28))]
 }
-
-# pres<-rownames(metaData)[metaData$bins == "PRE"]
-# posts<-rownames(metaData)[metaData$bins != "PRE"]
 
 brackenPre<-brackenT[, pres, drop = F]
 brackenPost<-brackenT[, posts, drop = F]
@@ -30,6 +28,8 @@ rgiPre<-rgiT[, pres, drop = F]
 rgiPost<-rgiT[, posts, drop = F]
 vsearchPre<-vsearchT[, pres, drop = F]
 vsearchPost<-vsearchT[, posts, drop = F]
+genusPre<-genusT[, pres, drop = F]
+genusPost<-genusT[, posts, drop = F]
 
 metaBRACKENpre<-metaData[colnames(brackenPre), , drop = F]
 metaBRACKENpost<-metaData[colnames(brackenPost), , drop = F]
@@ -39,6 +39,8 @@ metaRGIpre<-metaData[colnames(rgiPre), , drop = F]
 metaRGIpost<-metaData[colnames(rgiPost), , drop = F]
 metaVSEARCHpre<-metaData[colnames(vsearchPre), , drop = F]
 metaVSEARCHpost<-metaData[colnames(vsearchPost), , drop = F]
+metaGENUSpre<-metaData[colnames(genusPre), , drop = F]
+metaGENUSpost<-metaData[colnames(genusPost), , drop = F]
 
 #p-values
 brackenPreWilcox_p<-apply(brackenPre, 1, function(x){wilcox.test(unlist(x)~metaBRACKENpre$ptInOut)$p.value})
@@ -49,6 +51,8 @@ rgiPreWilcox_p<-apply(rgiPre, 1, function(x){wilcox.test(unlist(x)~metaRGIpre$pt
 rgiPostWilcox_p<-apply(rgiPost, 1, function(x){wilcox.test(unlist(x)~metaRGIpost$ptInOut)$p.value})
 vsearchPreWilcox_p<-apply(vsearchPre, 1, function(x){wilcox.test(unlist(x)~metaVSEARCHpre$ptInOut)$p.value})
 vsearchPostWilcox_p<-apply(vsearchPost, 1, function(x){wilcox.test(unlist(x)~metaVSEARCHpost$ptInOut)$p.value})
+genusPreWilcox_p<-apply(genusPre, 1, function(x){wilcox.test(unlist(x)~metaGENUSpre$ptInOut)$p.value})
+genusPostWilcox_p<-apply(genusPost, 1, function(x){wilcox.test(unlist(x)~metaGENUSpost$ptInOut)$p.value})
 
 #adj.p-values
 brackenPreWilcox_adj_p<-p.adjust(brackenPreWilcox_p, method = "BH")
@@ -59,6 +63,8 @@ rgiPreWilcox_adj_p<-p.adjust(rgiPreWilcox_p, method = "BH")
 rgiPostWilcox_adj_p<-p.adjust(rgiPostWilcox_p, method = "BH")
 vsearchPreWilcox_adj_p<-p.adjust(vsearchPreWilcox_p, method = "BH")
 vsearchPostWilcox_adj_p<-p.adjust(vsearchPostWilcox_p, method = "BH")
+genusPreWilcox_adj_p<-p.adjust(genusPreWilcox_p, method = "BH")
+genusPostWilcox_adj_p<-p.adjust(genusPostWilcox_p, method = "BH")
 
 
 brackenPreResults<-data.frame(brackenPreWilcox_p, brackenPreWilcox_adj_p)
@@ -69,6 +75,8 @@ rgiPreResults<-data.frame(rgiPreWilcox_p, rgiPreWilcox_adj_p)
 rgiPostResults<-data.frame(rgiPostWilcox_p, rgiPostWilcox_adj_p)
 vsearchPreResults<-data.frame(vsearchPreWilcox_p, vsearchPreWilcox_adj_p)
 vsearchPostResults<-data.frame(vsearchPostWilcox_p, vsearchPostWilcox_adj_p)
+genusPreResults<-data.frame(genusPreWilcox_p, genusPreWilcox_adj_p)
+genusPostResults<-data.frame(genusPostWilcox_p, genusPostWilcox_adj_p)
 
 
 rownames(brackenPreResults)<-rownames(brackenT)
@@ -79,7 +87,8 @@ rownames(rgiPreResults)<-rownames(rgiT)
 rownames(rgiPostResults)<-rownames(rgiT)
 rownames(vsearchPreResults)<-rownames(vsearchT)
 rownames(vsearchPostResults)<-rownames(vsearchT)
-
+rownames(genusPreResults)<-rownames(genusT)
+rownames(genusPostResults)<-rownames(genusT)
 
 write.csv(brackenPreResults, "Wilcox/brackenPreInOut.csv")
 write.csv(brackenPostResults, "Wilcox/brackenPostInOut.csv")
@@ -89,7 +98,8 @@ write.csv(rgiPreResults, "Wilcox/rgiPreInOut.csv")
 write.csv(rgiPostResults, "Wilcox/rgiPostInOut.csv")
 write.csv(vsearchPreResults, "Wilcox/vsearchPreInOut.csv")
 write.csv(vsearchPostResults, "Wilcox/vsearchPostInOut.csv")
-
+write.csv(genusPreResults, "Wilcox/genusPreInOut.csv")
+write.csv(genusPostResults, "Wilcox/genusPostInOut.csv")
 
 
 
