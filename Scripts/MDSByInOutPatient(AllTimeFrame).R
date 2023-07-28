@@ -11,6 +11,10 @@ rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.
 vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 
 timeFrames<-unique(metaData$bins)
+desired_order<-c("PRE", "D0", "D7", "D14", "D21", "D28", "D35", "D60", "D100", "D180")
+ordered_string<-factor(timeFrames, levels = desired_order, ordered = TRUE)
+reordered_string<-timeFrames[order(ordered_string)]
+timeFrames<-reordered_string
 
 pdf("Plots/MDSForInAndOutPatients(AllTimeFrames).pdf", width=24, height=30)
 par(mfrow=c(5,4))
