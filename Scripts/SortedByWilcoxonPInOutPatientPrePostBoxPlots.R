@@ -88,7 +88,7 @@ for (i in 1:nrow(brackenT)){
           ylab=rownames(brackenPre)[i], xlab="Pre Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(brackenPre[i,])~metaBRACKENpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -106,7 +106,7 @@ for (i in 1:nrow(brackenT)){
           ylab=rownames(brackenPost)[i], xlab="Post Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(brackenPost[i,])~metaBRACKENpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -125,7 +125,7 @@ for (i in 1:nrow(genusT)){
           ylab=rownames(genusPre)[i], xlab="Pre Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(genusPre[i,])~metaGENUSpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -143,7 +143,7 @@ for (i in 1:nrow(genusT)){
           ylab=rownames(genusPost)[i], xlab="Post Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(genusPost[i,])~metaBRACKENpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -162,7 +162,7 @@ for (i in 1:nrow(amrT)){
           ylab=rownames(amrPre)[i], xlab="Pre Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(amrPre[i,])~metaAMRpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -180,7 +180,7 @@ for (i in 1:nrow(amrT)){
           ylab=rownames(amrPost)[i], xlab="Post Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(amrPost[i,])~metaAMRpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -199,7 +199,7 @@ for (i in 1:nrow(rgiT)){
           ylab=rownames(rgiPre)[i], xlab="Pre Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(rgiPre[i,])~metaRGIpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -217,7 +217,7 @@ for (i in 1:nrow(rgiT)){
           ylab=rownames(rgiPost)[i], xlab="Post Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(rgiPost[i,])~metaRGIpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -236,7 +236,7 @@ for (i in 1:nrow(vsearchT)){
           ylab=rownames(vsearchPre)[i], xlab="Pre Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(vsearchPre[i,])~metaVSEARCHpre$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
@@ -254,7 +254,7 @@ for (i in 1:nrow(vsearchT)){
           ylab=rownames(vsearchPost)[i], xlab="Post Patient", 
           names = label,
           cex.lab = 1.5, cex.axis = 1, cex.main = 1.8, 
-          col=c("cornflowerblue", "darkorange"))
+          col=c( "darkorange", "cornflowerblue"))
   stripchart(unlist(vsearchPost[i,])~metaVSEARCHpost$ptInOut, method="jitter", 
              vertical=T, pch=19, add=T)
   
