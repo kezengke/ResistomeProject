@@ -29,7 +29,7 @@ myT<-brackenT[, rownames(newMeta), drop = F]
 pdf("Plots/MDSForPreAndD28InAndOutPatientsSpecies(FourColors).pdf", width=6, height=6)
 par(mfrow=c(1,1))
 par(mar=c(5,6,4,1)+.1)
-circleCol<-c("cornflowerblue", "darkorange", "coral3", "olivedrab3")
+circleCol<-c("darkorange", "cornflowerblue", "coral3", "olivedrab3")
 cols<-circleCol[factor(newMeta$newMeta, levels = c("D28Inpatient", "D28Outpatient", "PREInpatient", "PREOutpatient"))]
 MDS<-capscale(t(myT)~1,distance = "bray")
 percentVariance<-MDS$CA$eig/sum(eigenvals(MDS))*100
