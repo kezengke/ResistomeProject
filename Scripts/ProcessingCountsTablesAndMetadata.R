@@ -41,7 +41,31 @@ colnames(brackenT)<-sapply(str_split(colnames(brackenT), "_", n = 2), `[`, 2) #k
 
 write.csv(brackenT, "CountsTables/brackenProcessed.csv")
 
-masterAMRlist<-read.csv("MASTER_AMRlist_2023_03.csv")
+#genus
+genusT<-read.delim("CountsTables/duke_genus.tsv", sep = "\t", header = T, row.names = 1)
+genusT<-genusT[, -c(1,2)] #get rid of taxonomy ID and level
+genusT<-genusT[, grepl("num", colnames(genusT))] #get rid of fractions
+
+colnames(genusT)<-gsub(".bracken.out_num", "", colnames(genusT)) #get rid of useless info
+SampleWithDots<-sapply(str_count(colnames(genusT), "\\."), `[`, 1) == 2
+colnames(genusT)[SampleWithDots]<-sub("\\.", "", colnames(genusT)[SampleWithDots]) #get rid of random "."s in sample names
+colnames(genusT)<-sub("\\.", "-", colnames(genusT)) #replace . with - to match with metadata
+colnames(genusT)<-sapply(str_split(colnames(genusT), "_", n = 2), `[`, 2) #keeping sequencing info for matching
+
+write.csv(genusT, "CountsTables/genusProcessed.csv")
+
+#phylum
+phylumT<-read.delim("CountsTables/duke_phylum.tsv", sep = "\t", header = T, row.names = 1)
+phylumT<-phylumT[, -c(1,2)] #get rid of taxonomy ID and level
+phylumT<-phylumT[, grepl("num", colnames(phylumT))] #get rid of fractions
+
+colnames(phylumT)<-gsub(".bracken.out_num", "", colnames(phylumT)) #get rid of useless info
+SampleWithDots<-sapply(str_count(colnames(phylumT), "\\."), `[`, 1) == 2
+colnames(phylumT)[SampleWithDots]<-sub("\\.", "", colnames(phylumT)[SampleWithDots]) #get rid of random "."s in sample names
+colnames(phylumT)<-sub("\\.", "-", colnames(phylumT)) #replace . with - to match with metadata
+colnames(phylumT)<-sapply(str_split(colnames(phylumT), "_", n = 2), `[`, 2) #keeping sequencing info for matching
+
+write.csv(phylumT, "CountsTables/phylumProcessed.csv")
 
 #AMR
 amrT<-read.delim("CountsTables/AMR_counts.tsv", sep = "\t", header = T, row.names = 2)
@@ -55,8 +79,6 @@ colnames(amrT)<-sapply(str_split(colnames(amrT), "_", n = 2), `[`, 2)
 #get rid of sample with all 0s
 amrT<-amrT[, -27]
 
-# amrT<-amrT[intersect(rownames(amrT), masterAMRlist$AMR.name), , drop = F]
-
 write.csv(amrT, "CountsTables/amrProcessed.csv")
 
 #RGI
@@ -68,8 +90,6 @@ SampleWithDots<-sapply(str_count(colnames(rgiT), "\\."), `[`, 1) == 2
 colnames(rgiT)[SampleWithDots]<-sub("\\.", "", colnames(rgiT)[SampleWithDots]) #get rid of random "."s in sample names
 colnames(rgiT)<-sub("\\.", "-", colnames(rgiT)) #replace . with - to match with metadata
 colnames(rgiT)<-sapply(str_split(colnames(rgiT), "_", n = 2), `[`, 2)
-
-# rgiT<-rgiT[intersect(rownames(rgiT), masterAMRlist$RGI.CARD.Short.Name), , drop = F]
 
 write.csv(rgiT, "CountsTables/rgiProcessed.csv")
 
@@ -86,6 +106,12 @@ colnames(vsearchT)<-sapply(str_split(colnames(vsearchT), "_", n = 2), `[`, 2)
 
 rownames(vsearchT)<-sapply(str_split(rownames(vsearchT), "\\|", n = 6), `[`, 6)
 
-# vsearchT<-vsearchT[intersect(rownames(vsearchT), masterAMRlist$Vsearch.ARO.Name), , drop = F]
-
 write.csv(vsearchT, "CountsTables/vsearchProcessed.csv")
+
+#pathway
+pathT<-read.delim("CountsTables/pathabundance_counts.tsv", sep = "\t", header = T, row.names = 1)
+colnames(pathT)<-sub("\\.", "-", colnames(pathT)) #replace . with - to match with metadata
+colnames(pathT)<-sub("_pathabundance", "", colnames(pathT))
+colnames(pathT)<-sapply(str_split(colnames(pathT), "_", n = 2), `[`, 2)
+
+write.csv(pathT, "CountsTables/pathwayProcessed.csv")
