@@ -1,5 +1,6 @@
 #sorted boxplot for in/out patient Ttest
 rm(list = ls())
+library(stringr)
 
 metaData<-read.csv("MetaBinnedWithInOutDonorTreatmentType.csv", header = T, row.names = 1)
 
@@ -34,7 +35,7 @@ plotFun <- function(pres, posts, preR, postR, countsT, meta, tableType) {
   par(mar=c(5,6,4,1)+.1)  
   
   label = c("In", "Out")
-  for (i in 1:nrow(countsT)){
+  for (i in 1:nrow(PreT)){
     boxplot(unlist(PreT[i,])~metaPre$ptInOut, outline = F,
             ylab=rownames(PreT)[i], xlab="Pre Patient", 
             names = label,
@@ -54,7 +55,7 @@ plotFun <- function(pres, posts, preR, postR, countsT, meta, tableType) {
   par(mar=c(5,6,4,1)+.1)  
   
   label = c("In", "Out")
-  for (i in 1:nrow(countsT)){
+  for (i in 1:nrow(PostT)){
     boxplot(unlist(PostT[i,])~metaPost$ptInOut, outline = F,
             ylab=rownames(PostT)[i], xlab="Post Patient", 
             names = label,
@@ -87,6 +88,15 @@ vsearchPostResults<-read.csv("Ttest/vsearchPostInOut.csv", row.names = 1)
 pathwayPreResults<-read.csv("Ttest/pathwayPreInOut.csv", row.names = 1)
 pathwayPostResults<-read.csv("Ttest/pathwayPostInOut.csv", row.names = 1)
 
+#truncate pathway names
+rows_to_keep <- !grepl("\\|unclassified", rownames(pathwayPreResults))
+pathwayPreResults <- pathwayPreResults[rows_to_keep, ]
+rownames(pathwayPreResults)<-sapply(str_split(rownames(pathwayPreResults), ":", n = 2), `[`, 1)
+
+rows_to_keep <- !grepl("\\|unclassified", rownames(pathwayPostResults))
+pathwayPostResults <- pathwayPostResults[rows_to_keep, ]
+rownames(pathwayPostResults)<-sapply(str_split(rownames(pathwayPostResults), ":", n = 2), `[`, 1)
+
 #counts tables
 speciesT<-read.csv("CountsTables/brackenFiltered.csv", header = T, row.names = 1, check.names = F)
 genusT<-read.csv("CountsTables/genusFiltered.csv", header = T, row.names = 1, check.names = F)
@@ -95,6 +105,11 @@ amrT<-read.csv("CountsTables/amrFiltered.csv", header = T, row.names = 1, check.
 rgiT<-read.csv("CountsTables/rgiFiltered.csv", header = T, row.names = 1, check.names = F)
 vsearchT<-read.csv("CountsTables/vsearchFiltered.csv", header = T, row.names = 1, check.names = F)
 pathwayT<-read.csv("CountsTables/pathFiltered.csv", header = T, row.names = 1, check.names = F)
+
+#truncate pathway names
+rows_to_keep <- !grepl("\\|unclassified", rownames(pathwayT))
+pathwayT <- pathwayT[rows_to_keep, ]
+rownames(pathwayT)<-sapply(str_split(rownames(pathwayT), ":", n = 2), `[`, 1)
 
 plotFun(pres, posts, speciesPreResults, speciesPostResults, speciesT, metaData, "Species")
 plotFun(pres, posts, genusPreResults, genusPostResults, genusT, metaData, "Genus")
