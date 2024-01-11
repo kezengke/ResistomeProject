@@ -15,6 +15,8 @@ proposedBins$Proposed.bin<-ifelse(substr(proposedBins$Proposed.bin, 1, 3) == "PR
 
 #in and out patient
 ptInOut<-read.csv("patientInOut.csv", header = T, row.names = 1)
+ptInOut$TpLoc<-gsub("Inpatient", "Hospital", ptInOut$TpLoc)
+ptInOut$TpLoc<-gsub("Outpatient", "Home", ptInOut$TpLoc)
 
 #metadata
 dukeSamples<-read.csv("Duke_samples_meta.csv", header = T, sep = ",")
